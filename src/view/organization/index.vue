@@ -99,9 +99,9 @@
 </template>
 
 <script>
-import {
-  groupList, moveUser2Group, addGroup, groupDelete
-} from '../../api/organization';
+// import {
+//   groupList, moveUser2Group, addGroup, groupDelete
+// } from '../../api/organization';
 import mixin from '@/common/js/mixin'
 
 export default {

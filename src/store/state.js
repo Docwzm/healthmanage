@@ -4,6 +4,9 @@ const state = {
     name: "首页",
     path: "/"
   }],
+  user:{
+    roles:1,
+  },
   userName: '',
   avatar: '',
   isLogin: false

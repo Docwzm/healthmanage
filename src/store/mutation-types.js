@@ -12,3 +12,7 @@ export const SET_MENU = 'SET_MENU';
 
 // 登录状态
 export const SET_LOGIN = 'SET_LOGIN'
+
+// 设置登录信息
+export const SET_USER = 'SET_USER';
+

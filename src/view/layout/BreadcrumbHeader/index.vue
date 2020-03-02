@@ -1,5 +1,5 @@
 <template>
-  <a-row class="main" id="bread-header" type="flex" justify="space-between">
+  <a-row class="breadcrumb-container" type="flex" justify="space-between">
     <a-breadcrumb :routes="breadRoutes">
       <template slot="itemRender" slot-scope="{route, params, routes, paths}">
         <span v-if="routes.indexOf(route) === routes.length - 1">
@@ -36,31 +36,35 @@ export default {
   methods: {
     initBreadCrumb() {
       this.breadRoutes = [
-        {
-          path: this.$route.path,
-          breadcrumbName: this.$route.meta.title
-        }
+        // {
+        //   path: this.$route.path,
+        //   breadcrumbName: this.$route.meta.title
+        // }
       ];
-      if (this.$route.meta.parentBreadCrumb) {
-        this.$router.options.routes.map(_item => {
-          if (_item.path == "/") {
-            this.addBreadCrumb(
-              _item.children,
-              this.$route.meta.parentBreadCrumb
-            );
-          }
-        });
-      }
+      // if (this.$route.meta.parentBreadCrumb) {
+      this.$router.options.routes.map(_item => {
+        if (_item.name === this.$route.name) {
+          // this.add
+          this.breadRoutes.unshift({
+            path: _item.path,
+            breadcrumbName: _item.meta.title
+          });
+          this.addBreadCrumb(_item.meta.parentBreadCrumb);
+        }
+        // this.addBreadCrumb(_item.children, this.$route.meta.parentBreadCrumb);
+      });
+      // }
     },
-    addBreadCrumb(routes, breadCrumbName) {
-      routes.map(item => {
+    addBreadCrumb(breadCrumbName) {
+      console.log(breadCrumbName);
+      this.$router.options.routes.map(item => {
         if (item.name == breadCrumbName) {
           this.breadRoutes.unshift({
             path: item.path,
             breadcrumbName: item.meta.title
           });
-          if (item.parentBreadCrumb) {
-            this.addBreadCrumb(routes, item.parentBreadCrumb);
+          if (item.meta.parentBreadCrumb) {
+            this.addBreadCrumb(item.meta.parentBreadCrumb);
           }
         }
       });
@@ -78,18 +82,22 @@ export default {
         case "doctors":
           btnName = "新增医生";
           break;
-          case "patients":
+        case "patients":
           btnName = "新增患者";
           break;
       }
-      this.btnName = btnName
+      this.btnName = btnName;
     },
     add() {
-      this.$router.push(`${this.$route.path}/add`);
+      this.$router.push(`${this.$route.path}/edit`);
     }
   }
 };
 </script>
 
 <style scoped lang="less">
+.breadcrumb-container {
+  height: 40px;
+  line-height: 40px;
+}
 </style>

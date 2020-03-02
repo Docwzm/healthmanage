@@ -1203,7 +1203,7 @@ html{
     <div class="top">
       <div class="bg"></div>
       <p class="title">罗湖医院数据大屏</p>
-      <a-button class="control-btn" @click="handlefullscreen">
+      <a-button class="control-btn" @click="gotoControl">
         <i class="icon-control"></i>
         控制台
       </a-button>
@@ -1765,7 +1765,9 @@ export default {
         false
       );
     },
-
+    gotoControl(){
+      this.$router.back()
+    },
     handlefullscreen() {
       var docElm = document.documentElement;
       //W3C

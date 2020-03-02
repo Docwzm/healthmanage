@@ -5,6 +5,10 @@ const mutations = {
   [types.SET_USERNAME](state, userName) {
     state.userName = userName
   },
+  // 登录成功设置登录信息
+  [types.SET_USER](state, user) {
+    state.user = user
+  },
   // 设置头像
   [types.SET_AVATAR](state, avatar) {
     state.avatar = avatar
