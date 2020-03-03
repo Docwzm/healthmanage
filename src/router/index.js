@@ -6,17 +6,23 @@ import { authCheck } from '../api/login'
 Vue.use(Router);
 
 let statciRoutes = [
-  // {
-  //   path: '/',
-  //   name: 'index',
-  //   component: () => import('@/view/layout'),
-  //   children: []
-  // },
+  {
+    path: '/',
+    name: 'index',
+    redirect:'/organs',
+    component: () => import('@/view/layout'),
+    children: []
+  },
   {
     path: '/login',
     component: () => import('@/view/login'),
     name: 'login'
   },
+  // {
+  //   path: '/forget',
+  //   component: () => import('@/view/login/forget'),
+  //   name: 'forget'
+  // },
   {
     path: '/dashboard',
     component: () => import('@/view/dashboard'),
@@ -45,7 +51,7 @@ let syncRoutes = [
         component: () => import('@/view/organs'),
       },
       {
-        path: '/edit',
+        path: 'edit',
         name: 'organsEdit',
         component: () => import('@/view/organs/edit'),
       }
@@ -71,7 +77,7 @@ let syncRoutes = [
         component: () => import('@/view/teams'),
       },
       {
-        path: '/edit',
+        path: 'edit',
         name: 'teamsEdit',
         component: () => import('@/view/teams/edit'),
       }
@@ -97,7 +103,7 @@ let syncRoutes = [
         component: () => import('@/view/doctors'),
       },
       {
-        path: '/edit',
+        path: 'edit',
         name: 'doctorsEdit',
         component: () => import('@/view/doctors/edit'),
       }
@@ -123,7 +129,7 @@ let syncRoutes = [
         component: () => import('@/view/patients'),
       },
       {
-        path: '/edit',
+        path: 'edit',
         name: 'patientsEdit',
         component: () => import('@/view/patients/edit'),
       }

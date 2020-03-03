@@ -1,7 +1,9 @@
 <template>
   <div class="edit-wrap">
     <back-header title="新增机构"></back-header>
-    <organ-form :id="id" :editType="editType"></organ-form>
+    <div class="form-wrap">
+      <organ-form :id="id" :editType="editType"></organ-form>
+    </div>
   </div>
 </template>
 
@@ -30,4 +32,7 @@ export default {
 </script>
 
 <style scoped lang="less">
+.form-wrap{
+  padding-left:30px;
+}
 </style>

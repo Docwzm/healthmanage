@@ -1,7 +1,9 @@
 <template>
   <div class="edit-wrap">
     <back-header title="新增团队"></back-header>
-    <team-form :id="id" :editType="editType"></team-form>
+    <div class="form-wrap">
+      <team-form :id="id" :editType="editType"></team-form>
+    </div>
   </div>
 </template>
 
@@ -30,4 +32,7 @@ export default {
 </script>
 
 <style scoped lang="less">
+.form-wrap{
+  padding-left:30px;
+}
 </style>

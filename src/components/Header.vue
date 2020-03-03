@@ -4,10 +4,11 @@
       <!-- <div :class="collapsed? 'menu-fold-wrap':'menu-unfold-wrap'">
         <a-icon class="fold" :type="collapsed? 'menu-fold':'menu-unfold'" @click="handleHide" />
       </div> -->
-      <div class="info-wrap">
+      <a-row class="info-wrap" type="flex" align="middle">
+        <a-icon :component="svg.logoIcon"></a-icon>
         <span>罗湖医院</span>
         <span>2020-02-20 星期二 9:00</span>
-      </div>
+      </a-row>
     </a-row>
     <a-row class="right">
       <a-col :span="10">
@@ -32,22 +33,27 @@
 </template>
 
 <script>
+import logoIcon from "@/statics/svg/icon-logo.svg";
 import { mapGetters, mapMutations } from "vuex";
 import { logout } from "../api/login";
 import mixin from "../common/js/mixin";
 
 export default {
   mixins: [mixin],
-  components: {
+  data() {
+    return {
+      svg: {
+        logoIcon
+      }
+    };
   },
+  components: {},
   props: {
     collapsed: {
       type: Boolean
     }
   },
-  mounted() {
-    
-  },
+  mounted() {},
   methods: {
     ...mapMutations({
       setLogin: "SET_LOGIN"
@@ -80,10 +86,12 @@ export default {
 <style scoped lang="less">
 .main {
   padding: 0 24px;
-  // background: #0050b3;
+  overflow: hidden;
 }
 .top {
-  .info-wrap {
+  svg {
+    font-size: 30px;
+    width: 60px;
   }
   .fold {
     cursor: pointer;

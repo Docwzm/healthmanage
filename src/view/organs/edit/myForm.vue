@@ -1,7 +1,7 @@
 <template>
   <div class="content-container">
     <div class="parent">上级机构 罗湖医院</div>
-    <a-form :form="form" @submit="handleSubmit">
+    <a-form :form="form">
       <a-form-item v-bind="formItemLayout" label="机构名称">
         <a-input v-decorator="[
           'name',
@@ -96,11 +96,19 @@
         ]" :disabled="disabled" type="password" placeholder="请输入机构密码" />
       </a-form-item>
       <a-form-item v-if="!disabled" v-bind="tailFormItemLayout">
-        <a-button class="btn-submit" type="primary" html-type="submit">
+        <a-button class="btn-submit" type="primary" @click="handleSubmit">
           {{id?'更新':'创建'}}
         </a-button>
         <a-button @click="goback">
           取消
+        </a-button>
+      </a-form-item>
+      <a-form-item v-else v-bind="tailFormItemLayout">
+        <a-button class="btn-submit" type="primary" @click="handleEdit">
+          编辑
+        </a-button>
+        <a-button type="danger" @click="handleDelete">
+          删除
         </a-button>
       </a-form-item>
     </a-form>
@@ -111,6 +119,7 @@
 export default {
   data() {
     return {
+      type: "check",
       formData: {
         name: "",
         level: [],
@@ -154,8 +163,17 @@ export default {
             }
           ]
         }
-      ],
-      formItemLayout: {
+      ]
+    };
+  },
+  props: {
+    id: "",
+    editType: "",
+    delete: null,
+    cancel: null,
+    formItemLayout: {
+      type: Object,
+      default: () => ({
         labelCol: {
           xs: { span: 24 },
           sm: { span: 3 }
@@ -164,8 +182,11 @@ export default {
           xs: { span: 24 },
           sm: { span: 8 }
         }
-      },
-      tailFormItemLayout: {
+      })
+    },
+    tailFormItemLayout: {
+      type: Object,
+      default: () => ({
         wrapperCol: {
           xs: {
             span: 5,
@@ -176,27 +197,28 @@ export default {
             offset: 3
           }
         }
-      }
-    };
-  },
-  props: {
-    id: "",
-    editType: ""
+      })
+    }
   },
   computed: {
     disabled() {
-      return this.editType === "check";
+      return this.type === "check";
     }
   },
   beforeCreate() {
     this.form = this.$form.createForm(this);
   },
   created() {
+    this.type = this.editType;
     if (this.id) {
       this.getOrganInfo();
     }
   },
   watch: {
+    editType(oldVal, newVal) {
+      // conso
+      this.type = newVal;
+    },
     id(oldVal, newVal) {
       if (newVal) {
         this.getOrganInfo();
@@ -204,8 +226,34 @@ export default {
     }
   },
   methods: {
+    handleEdit() {
+      this.type = "edit";
+    },
+    handleDelete() {
+      let content = "机构中有团队成员，无法删除机构";
+      // content "确定删除？"
+      this.$warning({
+        content,
+        cancelText: "取消",
+        okText: "确定",
+        onOk: () => {
+          if (this.delete) {
+            this.delete();
+          } else {
+            this.$router.back();
+          }
+        },
+        onCancel: null
+      });
+    },
     goback() {
-      this.$router.back();
+      this.form.resetFields();
+      if (this.cancel) {
+        this.type = "check";
+        this.cancel();
+      } else {
+        this.$router.back();
+      }
     },
     valiCity(rule, value, callback, source, options) {
       var errors = [];
@@ -213,6 +261,7 @@ export default {
     },
     handleSubmit(e) {
       e.preventDefault();
+      console.log("..............hahhahaaaaaa");
       this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
           console.log("Received values of form: ", values);
@@ -229,10 +278,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-.content-container {
-  // margin
-  padding-left: 30px;
-}
 .parent {
   margin-bottom: 20px;
 }

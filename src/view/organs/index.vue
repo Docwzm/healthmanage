@@ -28,6 +28,7 @@
 <script>
 import BreadCrumb from '@/view/layout/BreadcrumbHeader'
 export default {
+  name:'organs',
   data() {
     return {
       list: [
