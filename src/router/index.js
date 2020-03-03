@@ -7,13 +7,6 @@ Vue.use(Router);
 
 let statciRoutes = [
   {
-    path: '/',
-    name: 'index',
-    redirect:'/organs',
-    component: () => import('@/view/layout'),
-    children: []
-  },
-  {
     path: '/login',
     component: () => import('@/view/login'),
     name: 'login'
@@ -163,13 +156,10 @@ let router = new Router({
 
 
 // 更新用户信息
-function setUser(to) {
-  let userName = localStorage.getItem('ls_userName');
-  let headImg = localStorage.getItem('ls_headImg');
-  store.commit('SET_USERNAME', userName);
-  store.commit('SET_AVATAR', headImg);
+function setUser() {
+  let user = localStorage.getItem('lifesense_medical_user');
+  store.commit('SET_USER', user);
 }
-
 
 const filterRoutes = (roles) => {
   let role = ''
@@ -189,7 +179,7 @@ const filterRoutes = (roles) => {
   }
   syncRoutes = syncRoutes.filter(item => {
     if (item.meta.roles) {
-      if(item.meta.roles.indexOf(role)<0){
+      if (item.meta.roles.indexOf(role) < 0) {
         return false;
       }
     }
@@ -200,41 +190,35 @@ const filterRoutes = (roles) => {
 }
 
 router.beforeEach((to, from, next) => {
-  console.log('.................//to')
   document.documentElement.scrollLeft = 0;
-  // const { roles } = store.state.user
-  // let accessRoutes = filterRoutes(roles)
-  // console.log(accessRoutes)
-  // router.addRoutes(accessRoutes)
+  // if (to.path === '/') {
+
+  // }
   // login页面意外的路由
-  // if(to.name!=='login'){
+  // if (to.name !== 'login') {
   //   //检查用户是否登录
-  //   if(store.getters.isLogin) {
-  //     setUser(to);
+  //   let user = localStorage.getItem('lifesense_medical_user')
+  //   let syncRoutes = localStorage.getItem('syncRoutes')
+  //   if (user) {
+  //     setUser();
+  //     if (!syncRoutes) {
+  //       const { roles } = JSON.parse(user)
+  //       let accessRoutes = filterRoutes(roles)
+  //       console.log(accessRoutes)
+  //       router.addRoutes(accessRoutes)
+  //       localStorage.setItem('syncRoutes',true)
+  //     }
   //     next();
   //   } else {
-  //     authCheck().then(res => {
-  //       // 返回ture, 接着往下走
-  //       if(res){
-  //         setUser(to);
-  //         store.commit('SET_LOGIN',true);
-  //         next();
-  //       }else{
-  //         // 未登录, 跳转到登录页面
-  //         next({
-  //           path: '/login',
-  //           query: {redirect: to.fullPath}
-  //         });
-  //         return
-  //       }
+  //     next({
+  //       path: '/login',
+  //       query: { redirect: to.fullPath }
   //     });
   //   }
-
-  // }else{
+  // } else {
     next()
   // }
 
-  // next({ ...to, replace: true })
 });
 
 

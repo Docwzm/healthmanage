@@ -20,7 +20,8 @@ export default {
   data() {
     return {
       breadRoutes: [],
-      btnName: ""
+      btnName: "",
+      queryParmas: { id: 1 }
     };
   },
   mounted() {
@@ -35,6 +36,8 @@ export default {
   },
   methods: {
     initBreadCrumb() {
+     
+
       this.breadRoutes = [
         // {
         //   path: this.$route.path,
@@ -56,11 +59,24 @@ export default {
       // }
     },
     addBreadCrumb(breadCrumbName) {
-      console.log(breadCrumbName);
+       let { organId, teamId, doctorId } = this.$route.query;
+
       this.$router.options.routes.map(item => {
         if (item.name == breadCrumbName) {
+          let query = ''
+          switch (item.name) {
+            case "teams":
+              query = `?organId=${organId}`
+              break;
+            case "doctors":
+              query = `?organId=${organId}&teamId=${teamId}`
+              break;
+            case "patients":
+              query = ``
+              break;
+          }
           this.breadRoutes.unshift({
-            path: item.path,
+            path: `${item.path}${query}`,
             breadcrumbName: item.meta.title
           });
           if (item.meta.parentBreadCrumb) {

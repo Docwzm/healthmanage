@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import BreadCrumb from '@/view/layout/BreadcrumbHeader'
+import BreadCrumb from "@/view/layout/BreadcrumbHeader";
 export default {
   data() {
     return {
@@ -45,7 +45,7 @@ export default {
         },
         {
           id: 2,
-          name: '医生二',
+          name: "医生二",
           missionCount: 1000,
           patientCount: 100,
           selectCount: 100,
@@ -109,23 +109,26 @@ export default {
       }
     };
   },
-  components:{
+  components: {
     BreadCrumb
   },
   mounted() {
     this.getDoctorList();
   },
   methods: {
-    gotoPatients(info){
-      let {id} = info
-      this.$router.push(`/patients?doctorId=${id}`)
+    gotoPatients(info) {
+      let { id } = info;
+      let { organId, teamId } = this.$route.query;
+      this.$router.push(
+        `/patients?organId=${organId}&teamId=${teamId}&doctorId=${id}`
+      );
     },
     getDoctorList() {},
-    nameChange(e){
-      let value = e.target.value
+    nameChange(e) {
+      let value = e.target.value;
     },
-    dateChange(dateArr){
-      console.log(dateArr)
+    dateChange(dateArr) {
+      console.log(dateArr);
     },
     onShowSizeChange(current, pageSize) {
       let pager = { ...this.pagination };

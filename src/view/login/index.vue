@@ -761,6 +761,11 @@ export default {
       savelocalStorage("roleType", this.roleType);
     },
     handleSubmit(e) {
+
+      localStorage.setItem('lifesense_medical_user',JSON.stringify({
+        roles:1
+      }))
+      return false;
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {

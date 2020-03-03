@@ -118,7 +118,7 @@ export default {
   methods: {
     gotoDoctors(info){
       let {id} = info
-      this.$router.push(`/doctors?teamId=${id}`)
+      this.$router.push(`/doctors?organId=${this.$route.query.organId}&teamId=${id}`)
     },
     getTeamList() {},
     nameChange(e){

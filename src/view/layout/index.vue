@@ -56,7 +56,7 @@ export default {
   watch: {
     lang(newVal) {
       newVal === "ZH_CN" ? (this.locale = ZH_CN) : (this.locale = EN);
-    }
+    },
   },
   components: {
     Sider,

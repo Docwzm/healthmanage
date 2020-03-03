@@ -17,7 +17,7 @@
         <a-table :pagination="pagination" :columns="columns" :dataSource="list" :loading="loading"
           rowKey="id">
           <a-row slot="option" slot-scope="info">
-            <a-button>{{$t('common.check')}}</a-button>
+            <a-button @click="gotoTeam(info)">{{$t('common.check')}}</a-button>
           </a-row>
         </a-table>
       </a-row>
@@ -117,6 +117,11 @@ export default {
     this.getOrgList();
   },
   methods: {
+    gotoTeam(data){
+      console.log(data)
+      let organId = data.id;
+      this.$router.push(`/teams?organId=${organId}`)
+    },
     getOrgList() {},
     nameChange(e){
       let value = e.target.value
