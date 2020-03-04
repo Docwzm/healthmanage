@@ -11,16 +11,40 @@ let statciRoutes = [
     component: () => import('@/view/login'),
     name: 'login'
   },
-  // {
-  //   path: '/forget',
-  //   component: () => import('@/view/login/forget'),
-  //   name: 'forget'
-  // },
+  {
+    path: '/forget',
+    component: () => import('@/view/login/forget'),
+    name: 'forget'
+  },
   {
     path: '/dashboard',
     component: () => import('@/view/dashboard'),
     name: 'dashboard'
-  }
+  },
+  // {
+  //   path: '/setting',
+  //   component: () => import('@/view/dashboard'),
+  //   name: 'setting',
+  //   meta:{
+  //     title:'设置',
+  //     menu:{
+  //       icon:() => import('@/statics/img/sider/organization.svg')
+  //     }
+  //   },
+  //   children:[
+  //     {
+  //       path: '/test',
+  //       component: () => import('@/view/dashboard'),
+  //       name: 'test',
+  //       meta:{
+  //         title:'test',
+  //         menu:{
+  //           icon:() => import('@/statics/img/sider/organization.svg')
+  //         }
+  //       }
+  //     }
+  //   ]
+  // }
 ]
 
 

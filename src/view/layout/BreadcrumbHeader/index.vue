@@ -10,7 +10,7 @@
         </router-link>
       </template>
     </a-breadcrumb>
-    <a-button @click="add">{{btnName}}</a-button>
+    <a-button v-if="showBtn" @click="add">{{btnName}}</a-button>
   </a-row>
 </template>
 
@@ -21,6 +21,7 @@ export default {
     return {
       breadRoutes: [],
       btnName: "",
+      showBtn:false,
       queryParmas: { id: 1 }
     };
   },
@@ -87,22 +88,27 @@ export default {
     },
     changeBtn() {
       let btnName = "";
+      let showBtn = false;
       let routeName = this.$route.name;
       switch (routeName) {
         case "organs":
           btnName = "新增机构";
+          showBtn = true;
           break;
         case "teams":
           btnName = "新增团队";
+          showBtn = true;
           break;
         case "doctors":
           btnName = "新增医生";
+          showBtn = true;
           break;
         case "patients":
           btnName = "新增患者";
           break;
       }
       this.btnName = btnName;
+      this.showBtn = showBtn
     },
     add() {
       this.$router.push(`${this.$route.path}/edit`);

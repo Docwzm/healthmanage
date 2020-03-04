@@ -20,5 +20,11 @@ export default {
   .content-container {
     margin: 24px;
   }
+
+  .my-progress {
+    .ant-progress-inner {
+      background: #fff;
+    }
+  }
 }
 </style>

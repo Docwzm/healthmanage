@@ -1,7 +1,7 @@
 <template>
   <!-- <div v-if="showMenu"> -->
-      <a-menu-item @click="jumpTo(route.path)"
-        class="menu-item">
+      <a-menu-item v-if="showMenu" @click="jumpTo(route.path)"
+        class="menu-item" :key="route.path">
         <a-icon :component="route.meta.menu.icon" />
         <span>{{route.meta.title}}</span>
       </a-menu-item>

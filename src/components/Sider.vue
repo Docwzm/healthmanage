@@ -1,16 +1,3 @@
-<template>
-  <div style="position: fixed; min-width: 256px;">
-    <a-menu :selectedKeys="selectedKey" mode="inline" :inlineCollapsed="collapsed" class="menu">
-      <template v-for="route in routes" :route="route" class="menu-item">
-        <a-menu-item v-if="showMenu(route)" :key="route.path" @click="jumpTo(route.path)" class="menu-item">
-          <a-icon :component="route.meta.menu.icon" />
-          <span>{{route.meta.title}}</span>
-        </a-menu-item>
-      </template>
-    </a-menu>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from "vuex";
 import mixin from "@/common/js/mixin.js";
@@ -51,16 +38,73 @@ export default {
     }
   },
   methods: {
-    showMenu(route){
-      return route.meta && route.meta.menu
+    showMenu(route) {
+      return route.meta && route.meta.menu;
     },
     toggleCollapsed() {
       // 切换菜单伸缩
       this.collapsed = !this.collapsed;
+    },
+    hasOneMenuChild(route) {
+      if (!route.children || route.children.length == 0) {
+        return true;
+      }
+      let menuCount = 0;
+      route.children.map(item => {
+        if (item.meta && item.meta.menu && item.path !== "") {
+          menuCount += 1;
+        }
+      });
+      if (menuCount === 0) {
+        return true;
+      }
+      return false;
     }
   },
   computed: {
     ...mapGetters(["user"])
+  },
+  render() {
+    const renderMenuItem = route => {
+      return this.hasOneMenuChild(route) ? (
+        <a-menu-item
+          key={route.path}
+          onClick={() => this.jumpTo(route.path)}
+          class="menu-item"
+        >
+          <a-icon component={route.meta.menu.icon} />
+          <span>{route.meta.title}</span>
+        </a-menu-item>
+      ) : (
+        <a-sub-menu key={route.path}>
+          <span slot="title">
+            <a-icon component={route.meta.menu.icon} />
+            <span>{route.meta.title}</span>
+          </span>
+          {route.children.map(item => {
+            return renderMenuItem(item);
+          })}
+        </a-sub-menu>
+      );
+    };
+
+    return (
+      <div style="position: fixed; min-width: 256px;">
+        <a-menu
+          selectedKeys={this.selectedKey}
+          mode="inline"
+          inlineCollapsed={this.collapsed}
+          class="menu"
+        >
+          {this.$router.options.routes.map(route => {
+            if (route.meta && route.meta.menu) {
+              return renderMenuItem(route);
+            }
+            return null;
+          })}
+        </a-menu>
+      </div>
+    );
   }
 };
 </script>
@@ -72,6 +116,7 @@ export default {
   width: 100%;
   border-right: 1px solid #0050B3;
 }
+
 .menu-item {
   background-color: #0050B3 !important; // 这行覆盖了menu的默认样式
 }

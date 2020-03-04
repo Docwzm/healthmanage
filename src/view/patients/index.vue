@@ -7,18 +7,17 @@
           <div class="title">共200名患者</div>
         </a-row>
         <a-row>
-          <a-input :placeholder="$t('doctors.namePlaceholder')" class="name-input"
-            @change="nameChange" />
+          <a-input placeholder="请输入患者姓名" class="name-input" @change="nameChange" />
         </a-row>
       </a-row>
       <a-row>
         <a-table :pagination="pagination" :columns="columns" :dataSource="list" :loading="loading"
           rowKey="id">
-           <a-row slot="sex" slot-scope="sex">
+          <a-row slot="sex" slot-scope="sex">
             {{sex===1?'男':'女'}}
           </a-row>
           <a-row slot="option" slot-scope="info">
-            <a-button>{{$t('common.check')}}</a-button>
+            <a-button @click="gotoDetail(info)">{{$t('common.check')}}</a-button>
           </a-row>
         </a-table>
       </a-row>
@@ -136,6 +135,10 @@ export default {
       this.pageSize = pageSize;
       this.pageSizeChange = true;
       this.getPatientList();
+    },
+    gotoDetail(data) {
+      let { id } = data;
+      // this.$router.push('')
     }
   },
   computed: {
