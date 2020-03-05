@@ -5,8 +5,8 @@
       <a-col class="left">
         <a-row type="flex" justify="space-between" align="middle" class="title">
           <span>{{ $t('organization.name') }}</span>
-          <a-button type="primary" class="newAdd-org-button" @click="gotoAdd('organs')">+ 添加机构
-          </a-button>
+          <a-button type="primary" class="newAdd-org-button" @click="gotoAdd()">+
+            添加{{this.btnAddName}}</a-button>
         </a-row>
         <!--折叠区域-->
         <a-row class="collapse">
@@ -26,7 +26,7 @@
       </a-col>
 
       <a-col class="right">
-        <a-col class="top" v-if="currentComponentId" >
+        <a-col class="top" v-if="currentComponentId">
           <component :is="currentComponent" :id="currentComponentId" :editType="editType"
             :cancel="handleCancel" :delete="handleDelete" :formItemLayout="formItemLayout"
             :tailFormItemLayout="tailFormItemLayout"></component>
@@ -54,9 +54,11 @@
 </template>
 
 <script>
+import { getRolesInfo } from "@/utils/roles";
 export default {
   data() {
     return {
+      btnAddName: "",
       selectedRole: "",
       currentComponentId: "",
       editType: "check",
@@ -157,7 +159,9 @@ export default {
       currentComponent: null
     };
   },
-  mounted() {},
+  mounted() {
+    this.btnAddName = getRolesInfo().title;
+  },
   methods: {
     gotoAdd(type) {
       let url = "";
@@ -170,6 +174,9 @@ export default {
           break;
         case "doctors":
           url = "/doctors/edit";
+          break;
+        default:
+          url = getRolesInfo().homePage + "/edit";
           break;
       }
       this.$router.push(url);
@@ -206,9 +213,7 @@ export default {
             let _orgId = this.selectedNode.$parent.$parent.dataRef.key;
             if (item.key === _orgId) {
               item.children.map(_item => {
-                if (
-                  _item.key === this.selectedNode.$parent.dataRef.key
-                ) {
+                if (_item.key === this.selectedNode.$parent.dataRef.key) {
                   _item.children = _item.children.filter(__item => {
                     if (__item.key === this.currentComponentId) {
                       return false;
@@ -223,22 +228,16 @@ export default {
           });
           break;
       }
-      this.currentComponentId = null
+      this.currentComponentId = null;
     },
     handleCancel() {
-      console.log("...............");
       this.editType = "check";
     },
     onExpand(expandedKeys, obj) {
-      // console.log(obj);
-      // console.log(expandedKeys);
       this.expandedKeys = expandedKeys;
       this.autoExpandParent = false;
     },
     onSelect(selectedKeys, e) {
-      // console.log(e.node.$parent.dataRef);
-      // console.log(e.node.dataRef);
-      // console.log(selectedKeys);
       let { isOrg, isDoctor, isTeam } = e.node.dataRef;
       if (isOrg) {
         this.currentComponent = () => import("@/view/organs/edit/myForm");
@@ -287,9 +286,7 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped>
-@import '~@/common/stylus/common.styl';
-
+<style lang="less" scoped>
 .fade-enter-active {
   transition: all 1.5s ease-in;
 }
@@ -322,7 +319,7 @@ export default {
 
     // 增加机构
     .add-org {
-      margin: 20px $padding;
+      margin: 20px 0;
 
       .firstOrg-input {
         width: calc(100% - 144px);

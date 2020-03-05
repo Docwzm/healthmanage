@@ -1,43 +1,31 @@
 <script>
 import { mapGetters } from "vuex";
-import mixin from "@/common/js/mixin.js";
-import siderItem from "./SiderItem";
 export default {
-  mixins: [mixin],
   data() {
     return {
       routes: this.$router.options.routes,
-      selectedKey: [this.$route.name],
+      selectedKey: "",
       collapsed: false,
       list: [],
       accessMenuRoute: []
     };
   },
-  components: {
-    siderItem
-  },
   created() {
-    let func = (routes, menu) => {
-      return routes.filter(route => {
-        let findMenu = menu && menu.find(item => item.key===route.name);
-        if (!findMenu) {
-          return false;
-        } else {
-          if (findMenu.children) {
-            route.children = func(route.children, findMenu.children);
-          }
-        }
-        return true;
-      });
-    };
-    this.accessMenuRoute = func(this.$router.options.routes, this.menu);
+    if (this.$route.meta.key) {
+      this.selectedKey = [this.$route.meta.key];
+    }
   },
   watch: {
     $route(to, from) {
-      this.selectedKey = [to.name];
+      if (to.meta.key) {
+        this.selectedKey = [to.meta.key];
+      }
     }
   },
   methods: {
+    jumpTo(path){
+      this.$router.push(path)
+    },
     showMenu(route) {
       return route.meta && route.meta.menu;
     },
@@ -62,14 +50,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["user",'menu'])
+    ...mapGetters(["menu"])
   },
   render() {
-    const renderMenuItem = route => {
+    const renderMenuItem = (parentPath,route) => {
+      parentPath = parentPath?parentPath+'/':(route.path.indexOf('/')==0?'':'/')
       return this.hasOneMenuChild(route) ? (
         <a-menu-item
-          key={route.path}
-          onClick={() => this.jumpTo(route.path)}
+          key={route.meta.key}
+          onClick={() => this.jumpTo(parentPath+route.path)}
           class="menu-item"
         >
           <a-icon component={route.meta.menu.icon} />
@@ -82,7 +71,7 @@ export default {
             <span>{route.meta.title}</span>
           </span>
           {route.children.map(item => {
-            return renderMenuItem(item);
+            return renderMenuItem(route.path,item);
           })}
         </a-sub-menu>
       );
@@ -95,10 +84,11 @@ export default {
           mode="inline"
           inlineCollapsed={this.collapsed}
           class="menu"
+          theme="light"
         >
-          {this.accessMenuRoute.map(route => {
+          {this.menu.map(route => {
             if (route.meta && route.meta.menu) {
-              return renderMenuItem(route);
+              return renderMenuItem(null,route);
             }
             return null;
           })}
@@ -109,7 +99,7 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped>
+<style lang="less" scoped>
 .menu {
   background-color: #0050B3;
   color: #fff;
@@ -130,5 +120,9 @@ export default {
   .side-title {
     font-size: 30px;
   }
+}
+.ant-menu-item{
+  margin:0;
+  color:#fff;
 }
 </style>

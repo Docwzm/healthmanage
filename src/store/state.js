@@ -1,6 +1,6 @@
 const state = {
   menu: null,
   user: null,
-  syncRoutes:null
+  routes:null
 };
 export default state

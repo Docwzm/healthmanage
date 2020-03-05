@@ -33,13 +33,11 @@
 </template>
 
 <script>
-import logoIcon from "@/statics/svg/icon-logo.svg";
+import logoIcon from "@/assets/svg/icon-logo.svg";
 import { mapGetters, mapMutations } from "vuex";
 import { logout } from "../api/login";
-import mixin from "../common/js/mixin";
 
 export default {
-  mixins: [mixin],
   data() {
     return {
       svg: {
@@ -56,7 +54,7 @@ export default {
   mounted() {},
   methods: {
     ...mapMutations({
-      setLogin: "SET_LOGIN"
+      setUser: "SET_USER"
     }),
     // 侧边栏切换
     handleHide() {
@@ -64,14 +62,10 @@ export default {
     },
     // 登出
     logout() {
-      logout()
-        .then(res => {
-          this.setLogin(false);
-          this.jumpTo("/login");
-        })
-        .catch(err => {
-          this.showNotice(`${this.$t("systemNotice.systemCode[400]")}`);
-        });
+      logout().then(res => {
+        this.setUser(null);
+        this.$router.push("/login");
+      });
     },
     gotoDashboard() {
       this.$router.push("/dashboard");

@@ -54,7 +54,7 @@ li {
           box-sizing: border-box;
           font-size: 14px;
           color: #000;
-          background: #fff url("../../../statics/img/login/icon.png") no-repeat
+          background: #fff url("../../../assets/img/login/icon.png") no-repeat
             10px center;
         }
 
@@ -67,7 +67,7 @@ li {
           top: 24px;
           background: #fff;
           height: 110px;
-          background: #fff url("../../../statics/img/login/codeOn.png")
+          background: #fff url("../../../assets/img/login/codeOn.png")
             no-repeat center;
         }
       }
@@ -498,7 +498,7 @@ export default {
       step1Loading: false,
       step2Loading: false,
       svg:{
-          logoIcon:() => import('@/statics/svg/icon-logo.svg')
+          logoIcon:() => import('@/assets/svg/icon-logo.svg')
       }
     };
   },

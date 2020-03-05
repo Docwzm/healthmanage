@@ -109,7 +109,7 @@
         height: 0.16rem;
         display: inline-block;
         vertical-align: baseline;
-        background-image: url("../../../statics/img/dashboard/icon_back.png");
+        background-image: url("../../../assets/img/dashboard/icon_back.png");
         background-position: left center;
         background-size: 0.16rem 0.16rem;
       }
@@ -288,7 +288,7 @@
     width: 6.4rem;
     float: left;
     .top-title-bar {
-      background-image: url("../../../statics/img/dashboard/Icon_today.png");
+      background-image: url("../../../assets/img/dashboard/Icon_today.png");
     }
 
     .info-counter-wrap {
@@ -408,23 +408,23 @@
           }
 
           &.wristbands {
-            background-image: url("../../../statics/img/dashboard/icon_wristbands.png");
+            background-image: url("../../../assets/img/dashboard/icon_wristbands.png");
           }
 
           &.watch {
-            background-image: url("../../../statics/img/dashboard/icon_watch.png");
+            background-image: url("../../../assets/img/dashboard/icon_watch.png");
           }
 
           &.bp-dc {
-            background-image: url("../../../statics/img/dashboard/icon_bp_cuff.png");
+            background-image: url("../../../assets/img/dashboard/icon_bp_cuff.png");
           }
 
           &.bs-dc {
-            background-image: url("../../../statics/img/dashboard/icon_bp_cuff.png");
+            background-image: url("../../../assets/img/dashboard/icon_bp_cuff.png");
           }
 
           &.body-fat-dc {
-            background-image: url("../../../statics/img/dashboard/icon_body_fat_chen.png");
+            background-image: url("../../../assets/img/dashboard/icon_body_fat_chen.png");
           }
 
           p {
@@ -581,7 +581,7 @@
             vertical-align: middle;
             width: 0.2rem;
             height: 0.2rem;
-            background: url("../../../statics/img/dashboard/icon_history.png")
+            background: url("../../../assets/img/dashboard/icon_history.png")
               no-repeat;
             background-size: 100% 100%;
             margin-right: 0.06rem;
@@ -698,7 +698,7 @@
 
   .right {
     .top-title-bar {
-      background-image: url("../../../statics/img/dashboard/icon_history.png");
+      background-image: url("../../../assets/img/dashboard/icon_history.png");
     }
     .year-select {
       float: right;
@@ -1150,7 +1150,7 @@
         }
         .ant-table-tbody tr:first-child {
           td:first-child {
-            background: url("../../../statics/img/dashboard/num_1.png");
+            background: url("../../../assets/img/dashboard/num_1.png");
             background-size: 0.14rem 0.2rem;
             background-repeat: no-repeat;
             background-position: left center;
@@ -1158,7 +1158,7 @@
         }
         .ant-table-tbody tr:nth-child(2) {
           td:first-child {
-            background: url("../../../statics/img/dashboard/num_2.png");
+            background: url("../../../assets/img/dashboard/num_2.png");
             background-size: 0.14rem 0.2rem;
             background-repeat: no-repeat;
             background-position: left center;
@@ -1166,7 +1166,7 @@
         }
         .ant-table-tbody tr:nth-child(3) {
           td:first-child {
-            background: url("../../../statics/img/dashboard/num_3.png");
+            background: url("../../../assets/img/dashboard/num_3.png");
             background-size: 0.14rem 0.2rem;
             background-repeat: no-repeat;
             background-position: left center;
@@ -2069,10 +2069,6 @@ export default {
       this[name].addEventListener("mousemove", event => {
         var x = event.clientX - this[name].getBoundingClientRect().left;
         var y = event.clientY - this[name].getBoundingClientRect().top;
-        console.log(x);
-        console.log(y);
-        console.log(this[name + "_ctx"]);
-        console.log("...////////");
       });
 
       this[name + "_ctx"] = this[name].getContext("2d");

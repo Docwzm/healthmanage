@@ -57,7 +57,7 @@
         box-sizing: border-box;
         font-size: 14px;
         color: #000;
-        background: #fff url("../../statics/img/login/icon.png") no-repeat 10px
+        background: #fff url("../../assets/img/login/icon.png") no-repeat 10px
           center;
       }
 
@@ -70,14 +70,14 @@
         top: 24px;
         background: #fff;
         height: 110px;
-        background: #fff url("../../statics/img/login/codeOn.png") no-repeat
+        background: #fff url("../../assets/img/login/codeOn.png") no-repeat
           center;
       }
     }
   }
 
   .login-banner {
-    background: url("../../statics/img/login/img-login-background.png")
+    background: url("../../assets/img/login/img-login-background.png")
       no-repeat center / 100% auto;
     position: relative;
     z-index: 1;
@@ -214,14 +214,12 @@
   }
 
   .login-mod-img2 {
-    // background-image: url("../../statics/svg/img-login-health-facility.svg");
     svg {
       font-size: 320px;
     }
   }
 
   .login-mod-img3 {
-    // background-image: url("../../statics/svg/img-login-brand-custom.svg");
     i {
       width: 320px;
       height: 320px;
@@ -287,10 +285,6 @@
 
       .item4 {
         right: 0;
-        // background: #f8f8f8 url("../../statics/svg/icon-login-tick-steps.svg")
-        //   no-repeat center;
-        svg {
-        }
       }
     }
 
@@ -360,7 +354,7 @@
           .icon {
             width: 102px;
             height: 32px;
-            background: url("../../statics/img/login/footer-icon.png") no-repeat
+            background: url("../../assets/img/login/footer-icon.png") no-repeat
               center;
             margin-right: 35px;
             position: relative;
@@ -662,13 +656,13 @@
 </template>
 
 <script>
-import logoIcon from "@/statics/svg/icon-logo.svg";
-import blueCheckIcon from "@/statics/svg/icon-login-tick-blue.svg";
-import greenCheckIcon from "@/statics/svg/icon-login-tick-green.svg";
-import stepIcon from "@/statics/svg/icon-login-tick-steps.svg";
-import mod1Icon from "@/statics/svg/img-login-pharmacy-member.svg";
-import mod2Icon from "@/statics/svg/img-login-health-facility.svg";
-import mod3Icon from "@/statics/svg/img-login-brand-custom.svg";
+import logoIcon from "@/assets/svg/icon-logo.svg";
+import blueCheckIcon from "@/assets/svg/icon-login-tick-blue.svg";
+import greenCheckIcon from "@/assets/svg/icon-login-tick-green.svg";
+import stepIcon from "@/assets/svg/icon-login-tick-steps.svg";
+import mod1Icon from "@/assets/svg/img-login-pharmacy-member.svg";
+import mod2Icon from "@/assets/svg/img-login-health-facility.svg";
+import mod3Icon from "@/assets/svg/img-login-brand-custom.svg";
 import { mapMutations } from "vuex";
 export default {
   data() {
@@ -765,6 +759,7 @@ export default {
       savelocalStorage("roleType", this.roleType);
     },
     handleSubmit(e) {
+      e.preventDefault();
       localStorage.setItem(
         "lifesense_medical_user",
         JSON.stringify({

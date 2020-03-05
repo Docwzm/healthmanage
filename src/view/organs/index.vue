@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import BreadCrumb from '@/view/layout/BreadcrumbHeader'
+import { filterQuery } from "@/utils/util";
 export default {
   name:'organs',
   data() {
@@ -111,16 +111,15 @@ export default {
     };
   },
   components:{
-    BreadCrumb
+    BreadCrumb:() => import('@/view/layout/BreadcrumbHeader')
   },
   mounted() {
     this.getOrgList();
   },
   methods: {
     gotoTeam(data){
-      console.log(data)
       let organId = data.id;
-      this.$router.push(`/teams?organId=${organId}`)
+      this.$router.push(`/teams${filterQuery({organId})}`)
     },
     getOrgList() {},
     nameChange(e){

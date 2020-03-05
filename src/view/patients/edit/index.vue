@@ -1,12 +1,12 @@
 <template>
   <div class="edit-wrap">
-    <back-header title="新增医生"></back-header>
-    <team-form :id="id" :editType="editType"></team-form>
+    <back-header title="新增患者"></back-header>
+    <patient-form :id="id" :editType="editType"></patient-form>
   </div>
 </template>
 
 <script>
-import TeamForm from "./myForm";
+import PatientForm from "./myForm";
 import BackHeader from "@/view/layout/backHeader";
 export default {
   data() {
@@ -17,7 +17,7 @@ export default {
   },
   components: {
     BackHeader,
-    TeamForm
+    PatientForm
   },
   created() {
     let {

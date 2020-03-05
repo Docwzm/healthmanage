@@ -60,10 +60,10 @@ exports.cssLoaders = function (options) {
        // },
       javascriptEnabled: true,
      }),
-    sass: generateLoaders('sass', { indentedSyntax: true }),
-    scss: generateLoaders('sass'),
-    stylus: generateLoaders('stylus'),
-    styl: generateLoaders('stylus')
+    // sass: generateLoaders('sass', { indentedSyntax: true }),
+    // scss: generateLoaders('sass'),
+    // stylus: generateLoaders('stylus'),
+    // styl: generateLoaders('stylus')
   }
 };
 

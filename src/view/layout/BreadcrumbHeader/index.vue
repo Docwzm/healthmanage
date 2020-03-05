@@ -10,81 +10,70 @@
         </router-link>
       </template>
     </a-breadcrumb>
-    <a-button v-if="showBtn" @click="add">{{btnName}}</a-button>
+    <a-button v-if="showBtn" type="primary" @click="add">{{btnName}}</a-button>
   </a-row>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { filterQuery } from "@/utils/util";
 export default {
   name: "breadcrumb",
   data() {
     return {
       breadRoutes: [],
       btnName: "",
-      showBtn:false,
+      showBtn: false,
       queryParmas: { id: 1 }
     };
   },
+  computed: {
+    ...mapGetters(["routes"])
+  },
   mounted() {
-    this.initBreadCrumb();
+    this.initBreadCrumb(this.$route.meta.key);
     this.changeBtn();
   },
   watch: {
     $route(to, from) {
-      this.initBreadCrumb();
+      this.initBreadCrumb(to.meta.key);
       this.changeBtn();
     }
   },
   methods: {
-    initBreadCrumb() {
-     
+    initBreadCrumb(breadCrumbName) {
+      let { organId, teamId, doctorId } = this.$route.query;
 
-      this.breadRoutes = [
-        // {
-        //   path: this.$route.path,
-        //   breadcrumbName: this.$route.meta.title
-        // }
-      ];
-      // if (this.$route.meta.parentBreadCrumb) {
-      this.$router.options.routes.map(_item => {
-        if (_item.name === this.$route.name) {
-          // this.add
-          this.breadRoutes.unshift({
-            path: _item.path,
-            breadcrumbName: _item.meta.title
-          });
-          this.addBreadCrumb(_item.meta.parentBreadCrumb);
-        }
-        // this.addBreadCrumb(_item.children, this.$route.meta.parentBreadCrumb);
-      });
-      // }
-    },
-    addBreadCrumb(breadCrumbName) {
-       let { organId, teamId, doctorId } = this.$route.query;
-
-      this.$router.options.routes.map(item => {
-        if (item.name == breadCrumbName) {
-          let query = ''
-          switch (item.name) {
+      this.routes.map(item => {
+        if (item.meta && item.meta.key === breadCrumbName) {
+          let query = "";
+          switch (item.meta.key) {
             case "teams":
-              query = `?organId=${organId}`
+              query = filterQuery({ organId });
               break;
             case "doctors":
-              query = `?organId=${organId}&teamId=${teamId}`
+              query = filterQuery({ organId, teamId });
               break;
             case "patients":
-              query = ``
+              query = ``;
               break;
           }
           this.breadRoutes.unshift({
             path: `${item.path}${query}`,
+            key: item.meta.key,
             breadcrumbName: item.meta.title
           });
+
           if (item.meta.parentBreadCrumb) {
-            this.addBreadCrumb(item.meta.parentBreadCrumb);
+            this.initBreadCrumb(item.meta.parentBreadCrumb);
           }
         }
       });
+
+      // this.$route.matched.map(item => {
+
+      // })
+
     },
     changeBtn() {
       let btnName = "";
@@ -105,10 +94,11 @@ export default {
           break;
         case "patients":
           btnName = "新增患者";
+          showBtn = true;
           break;
       }
       this.btnName = btnName;
-      this.showBtn = showBtn
+      this.showBtn = showBtn;
     },
     add() {
       this.$router.push(`${this.$route.path}/edit`);

@@ -261,7 +261,6 @@ export default {
     },
     handleSubmit(e) {
       e.preventDefault();
-      console.log("..............hahhahaaaaaa");
       this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
           console.log("Received values of form: ", values);

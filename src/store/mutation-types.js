@@ -5,5 +5,5 @@ export const SET_USER = 'SET_USER';
 export const SET_MENU = 'SET_MENU';
 
 //授权的路由设置
-export const SET_SYNCROUTES = 'SET_SYNCROUTES'
+export const SET_ROUTES = 'SET_ROUTES'
 

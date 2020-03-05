@@ -76,8 +76,8 @@ export default {
   }
   .container {
     min-height: 100%;
-    min-width: 1370px; // 设置屏幕的最小宽度
-
+    // min-width: 1370px; // 设置屏幕的最小宽度
+    
     .sider {
       background-color: #0050b3;
     }

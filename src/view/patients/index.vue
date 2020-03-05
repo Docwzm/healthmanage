@@ -27,6 +27,7 @@
 
 <script>
 import BreadCrumb from "@/view/layout/BreadcrumbHeader";
+import { filterQuery } from "@/utils/util";
 export default {
   data() {
     return {
@@ -138,7 +139,15 @@ export default {
     },
     gotoDetail(data) {
       let { id } = data;
-      // this.$router.push('')
+      let { organId, teamId, doctorId } = this.$route.query;
+      // this.$router.push(
+      //   `/patients${filterQuery({
+      //     organId,
+      //     teamId,
+      //     doctorId,
+      //     patientId: id
+      //   })}`
+      // );
     }
   },
   computed: {

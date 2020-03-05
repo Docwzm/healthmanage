@@ -26,5 +26,21 @@ export default {
       background: #fff;
     }
   }
+  .ant-menu-submenu-arrow {
+    &::before,
+    &::after {
+      background-image: none;
+    }
+  }
+  .ant-menu-submenu-inline > .ant-menu-submenu-title:hover {
+    &:hover {
+      .ant-menu-submenu-arrow {
+        &::before,
+        &::after {
+          background: #fff;
+        }
+      }
+    }
+  }
 }
 </style>

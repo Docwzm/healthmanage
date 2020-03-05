@@ -20,51 +20,32 @@ let staticRoutes = [
     name: 'forget'
   },
   {
-    path: '/dashboard',
-    component: () => import('@/view/dashboard'),
-    name: 'dashboard'
+    path: '/404',
+    component: () => import('@/view/error-page/404'),
+    hidden: true
   },
-  // {
-  //   path: '/setting',
-  //   component: () => import('@/view/dashboard'),
-  //   name: 'setting',
-  //   meta:{
-  //     title:'设置',
-  //     menu:{
-  //       icon:() => import('@/statics/img/sider/organization.svg')
-  //     }
-  //   },
-  //   children:[
-  //     {
-  //       path: '/test',
-  //       component: () => import('@/view/dashboard'),
-  //       name: 'test',
-  //       meta:{
-  //         title:'test',
-  //         menu:{
-  //           icon:() => import('@/statics/img/sider/organization.svg')
-  //         }
-  //       }
-  //     }
-  //   ]
-  // }
-]
-//授权路由汇总
-let syncRoutes = [
   {
     path: '/',
     name: 'home',
     redirect: '/dashboard'
   },
   {
+    path: '/dashboard',
+    component: () => import('@/view/dashboard'),
+    name: 'dashboard'
+  }
+]
+//授权路由汇总
+let syncRoutes = [
+  {
     path: '/organs',
-    name: 'organs',
     meta: {
+      key: 'organs',
       roles: ['organManager'],
       title: '机构管理',
       keepAlive: true,
       menu: {
-        icon: () => import('@/statics/img/sider/organization.svg')
+        icon: () => import('@/assets/img/sider/organization.svg')
       },
     },
     component: () => import('@/view/layout'),
@@ -72,25 +53,31 @@ let syncRoutes = [
       {
         path: '',
         name: 'organs',
+        meta: {
+          key: 'organs'
+        },
         component: () => import('@/view/organs'),
       },
       {
         path: 'edit',
         name: 'organsEdit',
+        meta: {
+          key: 'organsEdit'
+        },
         component: () => import('@/view/organs/edit'),
       }
     ]
   },
   {
     path: '/teams',
-    name: 'teams',
     meta: {
+      key: 'teams',
       roles: ['organManager', 'teamManager'],
       title: '团队管理',
       parentBreadCrumb: 'organs',
       keepAlive: true,
       menu: {
-        icon: () => import('@/statics/img/sider/organization.svg')
+        icon: () => import('@/assets/img/sider/organization.svg')
       }
     },
     component: () => import('@/view/layout'),
@@ -98,25 +85,31 @@ let syncRoutes = [
       {
         path: '',
         name: 'teams',
+        meta: {
+          key: 'teams'
+        },
         component: () => import('@/view/teams'),
       },
       {
         path: 'edit',
         name: 'teamsEdit',
+        meta: {
+          key: 'teamsEdit'
+        },
         component: () => import('@/view/teams/edit'),
       }
     ]
   },
   {
     path: '/doctors',
-    name: 'doctors',
     meta: {
+      key: 'doctors',
       title: '医生管理',
       roles: ['organManager', 'teamManager', 'doctorManager'],
       parentBreadCrumb: 'teams',
       keepAlive: true,
       menu: {
-        icon: () => import('@/statics/img/sider/organization.svg')
+        icon: () => import('@/assets/img/sider/organization.svg')
       }
     },
     component: () => import('@/view/layout'),
@@ -124,25 +117,31 @@ let syncRoutes = [
       {
         path: '',
         name: 'doctors',
+        meta: {
+          key: 'doctors'
+        },
         component: () => import('@/view/doctors'),
       },
       {
         path: 'edit',
         name: 'doctorsEdit',
+        meta: {
+          key: 'doctorsEdit'
+        },
         component: () => import('@/view/doctors/edit'),
       }
     ]
   },
   {
     path: '/patients',
-    name: 'patients',
     meta: {
+      key: 'patients',
       title: '患者管理',
       roles: ['organManager', 'teamManager', 'doctorManager', 'doctor'],
       parentBreadCrumb: 'doctors',
       keepAlive: true,
       menu: {
-        icon: () => import('@/statics/img/sider/organization.svg')
+        icon: () => import('@/assets/img/sider/organization.svg')
       }
     },
     component: () => import('@/view/layout'),
@@ -150,52 +149,57 @@ let syncRoutes = [
       {
         path: '',
         name: 'patients',
+        meta: {
+          key: 'patients'
+        },
         component: () => import('@/view/patients'),
       },
       {
         path: 'edit',
         name: 'patientsEdit',
+        meta: {
+          key: 'patientsEdit'
+        },
         component: () => import('@/view/patients/edit'),
       }
     ]
   },
   {
     path: '/setting',
-    name: 'setting',
     component: () => import('@/view/layout'),
     meta: {
+      key: 'setting',
       title: '设置',
       menu: {
-        icon: () => import('@/statics/img/sider/organization.svg')
+        icon: () => import('@/assets/img/sider/organization.svg')
       }
     },
     children: [
       {
-        path: '/organization',
+        path: 'organization',
         name: 'organization',
         component: () => import('@/view/organization'),
         meta: {
+          key: 'organization',
           title: '人员架构',
           keepAlive: true,
           menu: {
-            icon: () => import('@/statics/img/sider/organization.svg')
+            icon: () => import('@/assets/img/sider/organization.svg')
           }
         }
       }
     ]
-  }
-
+  },
+  { path: '*', redirect: '/404' }
 ]
 
 let router = new Router({
-  routes: staticRoutes.concat(syncRoutes),
+  routes: staticRoutes,
 });
 
 //过滤授权的路由
 const filterRoutes = () => {
-  console.log('......../')
   let { role } = getRolesInfo()
-  console.log(role)
   syncRoutes = syncRoutes.filter(item => {
     if (item.meta && item.meta.roles) {
       if (item.meta.roles.indexOf(role) < 0) {
@@ -204,7 +208,6 @@ const filterRoutes = () => {
     }
     return true
   })
-  console.log('syncRoutes', syncRoutes)
   return syncRoutes
 }
 
@@ -216,37 +219,36 @@ router.beforeEach((to, from, next) => {
     //检查用户是否登录
     let user = localStorage.getItem('lifesense_medical_user')
     if (user) {
-      console.log('........../user', user)
       try {
         user = JSON.parse(user)
         store.commit('SET_USER', user);
 
-        let syncRoutes = store.state.syncRoutes
-        console.log(syncRoutes)
-        if (!syncRoutes) {
+        let menu = store.state.menu
+        if (!menu) {
           let accessRoutes = filterRoutes()
-          console.log(accessRoutes)
           router.addRoutes(accessRoutes)
-          store.commit('SET_SYNCROUTES', accessRoutes);
-        }
+          store.commit('SET_ROUTES', staticRoutes.concat(accessRoutes))
+          store.commit('SET_MENU', {
+            routes: staticRoutes.concat(accessRoutes),
+            menu: [
+              {
+                key: 'organs'
+              },
+              {
+                key: 'setting',
+                children: [
+                  {
+                    key: 'organization'
+                  }
+                ]
+              }
+            ]
+          })
 
-        let syncMenu = store.state.menu
-        if (!syncMenu) {
-          store.commit('SET_MENU', [
-            {
-              key: 'organs'
-            },
-            {
-              key:'setting',
-              children:[
-                {
-                  key:'organization'
-                }
-              ]
-            }
-          ])
+          next({ ...to, replace: true })
+        } else {
+          next()
         }
-        next();
       } catch (e) {
         next({
           path: '/login',
