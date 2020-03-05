@@ -29,7 +29,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     hot: true,
     contentBase: false,
     compress: true,
-    host: 'localhost',
+    host: '0.0.0.0',
     port: 8081,
     publicPath: config.dev.assetsPublicPath,
     proxy: config.dev.proxyTable,
@@ -65,7 +65,7 @@ module.exports = new Promise((resolve, reject) => {
 
       devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
         compilationSuccessInfo: {
-          messages: [`Your application is running here: https://${devWebpackConfig.devServer.host}:${port}`],
+          messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
         },
         onErrors: utils.createNotifierCallback()
       }));

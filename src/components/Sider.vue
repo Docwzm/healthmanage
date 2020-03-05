@@ -9,28 +9,28 @@ export default {
       routes: this.$router.options.routes,
       selectedKey: [this.$route.name],
       collapsed: false,
-      list: []
+      list: [],
+      accessMenuRoute: []
     };
   },
   components: {
     siderItem
   },
   created() {
-    console.log(this.user);
-    // this.$router.options.routes.map(item => {
-    //   if (item.meta && item.meta.menu) {
-    //     if (hasMenuChild(item)) {
-    //       this.list.push({
-    //         path: item.path,
-    //         icon: item.meta.menu.icon,
-    //         title: item.meta.title,
-    //         name: item.name,
-    //         children: []
-    //       });
-    //     } else {
-    //     }
-    //   }
-    // });
+    let func = (routes, menu) => {
+      return routes.filter(route => {
+        let findMenu = menu && menu.find(item => item.key===route.name);
+        if (!findMenu) {
+          return false;
+        } else {
+          if (findMenu.children) {
+            route.children = func(route.children, findMenu.children);
+          }
+        }
+        return true;
+      });
+    };
+    this.accessMenuRoute = func(this.$router.options.routes, this.menu);
   },
   watch: {
     $route(to, from) {
@@ -62,7 +62,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["user"])
+    ...mapGetters(["user",'menu'])
   },
   render() {
     const renderMenuItem = route => {
@@ -96,7 +96,7 @@ export default {
           inlineCollapsed={this.collapsed}
           class="menu"
         >
-          {this.$router.options.routes.map(route => {
+          {this.accessMenuRoute.map(route => {
             if (route.meta && route.meta.menu) {
               return renderMenuItem(route);
             }

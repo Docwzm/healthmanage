@@ -1,18 +1,9 @@
-// 设置登录信息
-export const SET_USERNAME = 'SET_USERNAME';
+// 设置用户信息
+export const SET_USER = 'SET_USER';
 
-// 设置用户头像
-export const SET_AVATAR = 'SET_AVATAR';
-
-// 侧边栏菜单
-export const SET_SECTION = 'SET_SECTION';
-
-// 面包屑导航
+// 菜单栏导航
 export const SET_MENU = 'SET_MENU';
 
-// 登录状态
-export const SET_LOGIN = 'SET_LOGIN'
-
-// 设置登录信息
-export const SET_USER = 'SET_USER';
+//授权的路由设置
+export const SET_SYNCROUTES = 'SET_SYNCROUTES'
 

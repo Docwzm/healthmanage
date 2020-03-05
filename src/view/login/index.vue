@@ -669,7 +669,7 @@ import stepIcon from "@/statics/svg/icon-login-tick-steps.svg";
 import mod1Icon from "@/statics/svg/img-login-pharmacy-member.svg";
 import mod2Icon from "@/statics/svg/img-login-health-facility.svg";
 import mod3Icon from "@/statics/svg/img-login-brand-custom.svg";
-
+import { mapMutations } from "vuex";
 export default {
   data() {
     // var validatePhone = (rule, value, callback) => {
@@ -729,6 +729,10 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      setUser: "SET_USER",
+      setMenu: 'SET_MENU'
+    }),
     //判断医生是否已认证
     checkDoctor(user_password) {
       try {
@@ -761,11 +765,16 @@ export default {
       savelocalStorage("roleType", this.roleType);
     },
     handleSubmit(e) {
-
-      localStorage.setItem('lifesense_medical_user',JSON.stringify({
-        roles:1
-      }))
+      localStorage.setItem(
+        "lifesense_medical_user",
+        JSON.stringify({
+          roles: 1
+        })
+      );
+      this.setUser({roles:1})
+      this.$router.push('/')
       return false;
+
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {

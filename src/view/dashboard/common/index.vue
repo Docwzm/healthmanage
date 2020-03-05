@@ -1,9 +1,4 @@
 <style lang="less">
-html{
-  font-size:100px;
-}
-</style>
-<style lang="less">
 .year-popper {
   border: none;
   .el-select-dropdown__list,
@@ -12,7 +7,7 @@ html{
   }
 }
 .dashboard-container {
-  min-width:1920px;
+  min-width: 1920px;
   font-family: PingFangSC-Regular, PingFang SC;
   min-height: 100%;
   background: linear-gradient(
@@ -1130,66 +1125,67 @@ html{
 
       .table-wrap {
         margin-top: 0.18rem;
-        overflow:hidden;
+        overflow: hidden;
       }
 
       .community-table {
         background: none;
         border: none;
-        th,td{
-          background:none;
-          border:none;
+        th,
+        td {
+          background: none;
+          border: none;
         }
-        .ant-table-thead{
-          background:rgba(255,255,255,0.1);
-          border-radius:2px;
+        .ant-table-thead {
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 2px;
         }
-        .ant-table-thead th{
-          font-size:0.13rem;
-          font-family:PingFangSC-Semibold,PingFang SC;
-          font-weight:600;
-          color:rgba(228,192,74,1);
+        .ant-table-thead th {
+          font-size: 0.13rem;
+          font-family: PingFangSC-Semibold, PingFang SC;
+          font-weight: 600;
+          color: rgba(228, 192, 74, 1);
           height: 0.48rem;
           padding: 0 0 0 0.11rem;
         }
-        .ant-table-tbody tr:first-child{
-          td:first-child{
-              background:url('../../../statics/img/dashboard/num_1.png');
-              background-size:0.14rem 0.2rem;
-              background-repeat:no-repeat;
-              background-position:left center;
+        .ant-table-tbody tr:first-child {
+          td:first-child {
+            background: url("../../../statics/img/dashboard/num_1.png");
+            background-size: 0.14rem 0.2rem;
+            background-repeat: no-repeat;
+            background-position: left center;
           }
         }
-        .ant-table-tbody tr:nth-child(2){
-          td:first-child{
-              background:url('../../../statics/img/dashboard/num_2.png');
-              background-size:0.14rem 0.2rem;
-              background-repeat:no-repeat;
-              background-position:left center;
+        .ant-table-tbody tr:nth-child(2) {
+          td:first-child {
+            background: url("../../../statics/img/dashboard/num_2.png");
+            background-size: 0.14rem 0.2rem;
+            background-repeat: no-repeat;
+            background-position: left center;
           }
         }
-        .ant-table-tbody tr:nth-child(3){
-          td:first-child{
-              background:url('../../../statics/img/dashboard/num_3.png');
-              background-size:0.14rem 0.2rem;
-              background-repeat:no-repeat;
-              background-position:left center;
+        .ant-table-tbody tr:nth-child(3) {
+          td:first-child {
+            background: url("../../../statics/img/dashboard/num_3.png");
+            background-size: 0.14rem 0.2rem;
+            background-repeat: no-repeat;
+            background-position: left center;
           }
         }
-        .ant-table-tbody td{
-          font-size:0.12rem;
-          font-family:PingFangSC-Regular,PingFang SC;
-          color:rgba(255,255,255,1);
+        .ant-table-tbody td {
+          font-size: 0.12rem;
+          font-family: PingFangSC-Regular, PingFang SC;
+          color: rgba(255, 255, 255, 1);
           height: 0.36rem;
           padding: 0 0 0 0.11rem;
-          &:first-child{
-              padding-left:0.2rem;
+          &:first-child {
+            padding-left: 0.2rem;
           }
-          .td-col8{
-            font-size:0.17rem;
-            font-family:DINAlternate-Bold,DINAlternate;
-            font-weight:bold;
-            color:rgba(93,141,228,1);
+          .td-col8 {
+            font-size: 0.17rem;
+            font-family: DINAlternate-Bold, DINAlternate;
+            font-weight: bold;
+            color: rgba(93, 141, 228, 1);
           }
         }
       }
@@ -1406,7 +1402,8 @@ html{
       <div class="right">
         <div class="top-title-bar">
           <p class="title">历史数据概览</p>
-          <a-select class="year-select" popper-class="year-popper" :value="selectYear" @change="changeYear">
+          <a-select class="year-select" popper-class="year-popper" :value="selectYear"
+            @change="changeYear">
             <a-select-option value="2020">2020</a-select-option>
             <a-select-option value="2019">2019</a-select-option>
           </a-select>
@@ -1585,38 +1582,39 @@ html{
               <a class="check-detail-btn" href>查看详情 &gt;</a>
             </div>
             <div class="table-wrap">
-            <a-table class="community-table" rowKey="id" :dataSource="data" :pagination="pagination">
-              <a-table-column dataIndex="col1" key="col1">
-                <span slot="title" style="color: #fff">机构名称</span>
-                <template slot-scope="col1">
-                  <span>{{col1}}</span>
-                </template>
-              </a-table-column>
-              <a-table-column dataIndex="col2" key="col2">
-                <span slot="title" style="color: #E4C04A">任务数</span>
-              </a-table-column>
-              <a-table-column dataIndex="col3" key="col3">
-                <span slot="title" style="color: #A19BFF">筛查数</span>
-              </a-table-column>
-              <a-table-column dataIndex="col4" key="col4">
-                <span slot="title" style="color: #A19BFF">发现数</span>
-              </a-table-column>
-              <a-table-column dataIndex="col5" key="col5">
-                <span slot="title" style="color: #57D0FF">管理数</span>
-              </a-table-column>
-              <a-table-column dataIndex="col6" key="col6">
-                <span slot="title" style="color: #57D0FF">规范数</span>
-              </a-table-column>
-              <a-table-column dataIndex="col7" key="col7">
-                <span slot="title" style="color: #57D0FF">控制数</span>
-              </a-table-column>
-              <a-table-column dataIndex="col8" key="col8">
-                <span slot="title" style="color: #5C8CE3">依从率</span>
-                <template slot-scope="col8">
-                  <span class="td-col8">{{col8}}</span>
-                </template>
-              </a-table-column>
-            </a-table>
+              <a-table class="community-table" rowKey="id" :dataSource="data"
+                :pagination="pagination">
+                <a-table-column dataIndex="col1" key="col1">
+                  <span slot="title" style="color: #fff">机构名称</span>
+                  <template slot-scope="col1">
+                    <span>{{col1}}</span>
+                  </template>
+                </a-table-column>
+                <a-table-column dataIndex="col2" key="col2">
+                  <span slot="title" style="color: #E4C04A">任务数</span>
+                </a-table-column>
+                <a-table-column dataIndex="col3" key="col3">
+                  <span slot="title" style="color: #A19BFF">筛查数</span>
+                </a-table-column>
+                <a-table-column dataIndex="col4" key="col4">
+                  <span slot="title" style="color: #A19BFF">发现数</span>
+                </a-table-column>
+                <a-table-column dataIndex="col5" key="col5">
+                  <span slot="title" style="color: #57D0FF">管理数</span>
+                </a-table-column>
+                <a-table-column dataIndex="col6" key="col6">
+                  <span slot="title" style="color: #57D0FF">规范数</span>
+                </a-table-column>
+                <a-table-column dataIndex="col7" key="col7">
+                  <span slot="title" style="color: #57D0FF">控制数</span>
+                </a-table-column>
+                <a-table-column dataIndex="col8" key="col8">
+                  <span slot="title" style="color: #5C8CE3">依从率</span>
+                  <template slot-scope="col8">
+                    <span class="td-col8">{{col8}}</span>
+                  </template>
+                </a-table-column>
+              </a-table>
             </div>
           </div>
         </div>
@@ -1627,12 +1625,14 @@ html{
 
 <script>
 import echarts from "echarts";
+import { mapGetters } from "vuex";
+import { getRolesInfo } from "@/utils/roles";
 
 export default {
   name: "dashboard",
   data() {
     return {
-      pagination:false,
+      pagination: false,
       selectYear: 2019,
       currentTrendTimeRange: "month",
       trendTimeRange: [
@@ -1679,60 +1679,56 @@ export default {
           color: ["#03D65C", "#70E555"]
         }
       ],
-      data:[
+      data: [
         {
-          id:1,
-          col1: '新围社康中心',
-          col2: '20000',
-          col3: '20000',
-          col4: '20000',
-          col5: '20000',
-          col6: '20000',
-          col7: '20000',
-          col8: '67%'
+          id: 1,
+          col1: "新围社康中心",
+          col2: "20000",
+          col3: "20000",
+          col4: "20000",
+          col5: "20000",
+          col6: "20000",
+          col7: "20000",
+          col8: "67%"
         },
         {
-          id:2,
-          col1: '新围社康中心',
-          col2: '20000',
-          col3: '20000',
-          col4: '20000',
-          col5: '20000',
-          col6: '20000',
-          col7: '20000',
-          col8: '67%'
+          id: 2,
+          col1: "新围社康中心",
+          col2: "20000",
+          col3: "20000",
+          col4: "20000",
+          col5: "20000",
+          col6: "20000",
+          col7: "20000",
+          col8: "67%"
         },
         {
-          id:3,
-          col1: '新围社康中心',
-          col2: '20000',
-          col3: '20000',
-          col4: '20000',
-          col5: '20000',
-          col6: '20000',
-          col7: '20000',
-          col8: '67%'
+          id: 3,
+          col1: "新围社康中心",
+          col2: "20000",
+          col3: "20000",
+          col4: "20000",
+          col5: "20000",
+          col6: "20000",
+          col7: "20000",
+          col8: "67%"
         },
         {
-          id:4,
-          col1: '新围社康中心',
-          col2: '20000',
-          col3: '20000',
-          col4: '20000',
-          col5: '20000',
-          col6: '20000',
-          col7: '20000',
-          col8: '67%'
+          id: 4,
+          col1: "新围社康中心",
+          col2: "20000",
+          col3: "20000",
+          col4: "20000",
+          col5: "20000",
+          col6: "20000",
+          col7: "20000",
+          col8: "67%"
         }
       ]
     };
   },
-  beforeRouteEnter (to, from, next) {
-    document.getElementsByTagName("html")[0].style.fontSize = "100px";
-    next()
-  },
-  destroyed() {
-    document.getElementsByTagName("html")[0].style.fontSize = "16px";
+  computed: {
+    ...mapGetters(["homePage"])
   },
   mounted() {
     this.init();
@@ -1745,11 +1741,7 @@ export default {
         "device_pie_chart",
         this.deviceChartData
       );
-      this.initPieChart(
-        "warn-pie-chart",
-        "warn_pie_chart",
-        this.warnChartData
-      );
+      this.initPieChart("warn-pie-chart", "warn_pie_chart", this.warnChartData);
       this.toCanvas("guage-chart-1", 48, "guage_chart_1");
       this.toCanvas("guage-chart-2", 90, "guage_chart_2");
       this.toCanvas("guage-chart-3", 48, "guage_chart_3");
@@ -1765,8 +1757,9 @@ export default {
         false
       );
     },
-    gotoControl(){
-      this.$router.back()
+    gotoControl() {
+      let { homePage } = getRolesInfo();
+      this.$router.push(homePage);
     },
     handlefullscreen() {
       var docElm = document.documentElement;

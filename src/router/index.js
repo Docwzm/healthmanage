@@ -1,11 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store/index'
+import { ROLES } from '@/utils/enum'
+import { getRolesInfo } from '@/utils/roles'
 import { authCheck } from '../api/login'
-
 Vue.use(Router);
 
-let statciRoutes = [
+const whiteRoutes = ['login', 'forget']//路由白名单
+
+let staticRoutes = [
   {
     path: '/login',
     component: () => import('@/view/login'),
@@ -46,9 +49,13 @@ let statciRoutes = [
   //   ]
   // }
 ]
-
-
+//授权路由汇总
 let syncRoutes = [
+  {
+    path: '/',
+    name: 'home',
+    redirect: '/dashboard'
+  },
   {
     path: '/organs',
     name: 'organs',
@@ -131,7 +138,7 @@ let syncRoutes = [
     name: 'patients',
     meta: {
       title: '患者管理',
-      roles: ['organManager', 'teamManager', 'doctorManager', 'patientManager'],
+      roles: ['organManager', 'teamManager', 'doctorManager', 'doctor'],
       parentBreadCrumb: 'doctors',
       keepAlive: true,
       menu: {
@@ -153,95 +160,108 @@ let syncRoutes = [
     ]
   },
   {
-    path: '/organization',
-    name: 'organization',
+    path: '/setting',
+    name: 'setting',
+    component: () => import('@/view/layout'),
     meta: {
-      title: '人员架构',
-      keepAlive: true,
+      title: '设置',
       menu: {
         icon: () => import('@/statics/img/sider/organization.svg')
       }
     },
-    component: () => import('@/view/layout'),
     children: [
       {
-        path: '',
+        path: '/organization',
         name: 'organization',
         component: () => import('@/view/organization'),
+        meta: {
+          title: '人员架构',
+          keepAlive: true,
+          menu: {
+            icon: () => import('@/statics/img/sider/organization.svg')
+          }
+        }
       }
     ]
-  },
+  }
 
 ]
 
 let router = new Router({
-  routes: statciRoutes.concat(syncRoutes),
+  routes: staticRoutes.concat(syncRoutes),
 });
 
-
-// 更新用户信息
-function setUser() {
-  let user = localStorage.getItem('lifesense_medical_user');
-  store.commit('SET_USER', user);
-}
-
-const filterRoutes = (roles) => {
-  let role = ''
-  switch (roles) {
-    case 1:
-      role = 'organManager';
-      break;
-    case 2:
-      role = 'teamManager';
-      break;
-    case 3:
-      role = 'doctorManager';
-      break;
-    case 4:
-      role = 'patientManager';
-      break;
-  }
+//过滤授权的路由
+const filterRoutes = () => {
+  console.log('......../')
+  let { role } = getRolesInfo()
+  console.log(role)
   syncRoutes = syncRoutes.filter(item => {
-    if (item.meta.roles) {
+    if (item.meta && item.meta.roles) {
       if (item.meta.roles.indexOf(role) < 0) {
         return false;
       }
     }
     return true
   })
-
+  console.log('syncRoutes', syncRoutes)
   return syncRoutes
 }
 
+
 router.beforeEach((to, from, next) => {
   document.documentElement.scrollLeft = 0;
-  // if (to.path === '/') {
 
-  // }
-  // login页面意外的路由
-  // if (to.name !== 'login') {
-  //   //检查用户是否登录
-  //   let user = localStorage.getItem('lifesense_medical_user')
-  //   let syncRoutes = localStorage.getItem('syncRoutes')
-  //   if (user) {
-  //     setUser();
-  //     if (!syncRoutes) {
-  //       const { roles } = JSON.parse(user)
-  //       let accessRoutes = filterRoutes(roles)
-  //       console.log(accessRoutes)
-  //       router.addRoutes(accessRoutes)
-  //       localStorage.setItem('syncRoutes',true)
-  //     }
-  //     next();
-  //   } else {
-  //     next({
-  //       path: '/login',
-  //       query: { redirect: to.fullPath }
-  //     });
-  //   }
-  // } else {
+  if (whiteRoutes.indexOf(to.name) < 0) {
+    //检查用户是否登录
+    let user = localStorage.getItem('lifesense_medical_user')
+    if (user) {
+      console.log('........../user', user)
+      try {
+        user = JSON.parse(user)
+        store.commit('SET_USER', user);
+
+        let syncRoutes = store.state.syncRoutes
+        console.log(syncRoutes)
+        if (!syncRoutes) {
+          let accessRoutes = filterRoutes()
+          console.log(accessRoutes)
+          router.addRoutes(accessRoutes)
+          store.commit('SET_SYNCROUTES', accessRoutes);
+        }
+
+        let syncMenu = store.state.menu
+        if (!syncMenu) {
+          store.commit('SET_MENU', [
+            {
+              key: 'organs'
+            },
+            {
+              key:'setting',
+              children:[
+                {
+                  key:'organization'
+                }
+              ]
+            }
+          ])
+        }
+        next();
+      } catch (e) {
+        next({
+          path: '/login',
+          query: { redirect: to.fullPath }
+        });
+      }
+    } else {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      });
+    }
+  } else {
     next()
-  // }
+  }
 
 });
 
