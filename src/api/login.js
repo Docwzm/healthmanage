@@ -23,3 +23,16 @@ export function logout(data){
       data
   })
 }
+
+
+/**
+ * 获取用户信息
+ * @param {*} data 
+ */
+export function getInfo(data){
+    return request({
+        url: '',
+        method: 'post',
+        data
+    })
+  }
