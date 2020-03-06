@@ -31,14 +31,14 @@
       </a-form-item>
       <a-form-item v-bind="formItemLayout" label="城市地区">
         <a-cascader v-decorator="[
-          'city',
+          'citys',
           {
               initialValue:formData.citys,
             rules: [{
               required: true, message: '请输入城市地区',
             }]
           }
-        ]" :options="residences" :disabled="disabled" placeholder="请输入城市地区" />
+        ]" :options="cityOptions" :disabled="disabled" placeholder="请输入城市地区" />
       </a-form-item>
       <a-form-item v-bind="formItemLayout" label="详细地址">
         <a-input v-decorator="[
@@ -116,6 +116,7 @@
 </template>
 
 <script>
+import cityOptions from '@/utils/cities'
 export default {
   data() {
     return {
@@ -130,40 +131,7 @@ export default {
         userName: "",
         password: ""
       },
-      residences: [
-        {
-          value: "zhejiang",
-          label: "Zhejiang",
-          children: [
-            {
-              value: "hangzhou",
-              label: "Hangzhou",
-              children: [
-                {
-                  value: "xihu",
-                  label: "West Lake"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          value: "jiangsu",
-          label: "Jiangsu",
-          children: [
-            {
-              value: "nanjing",
-              label: "Nanjing",
-              children: [
-                {
-                  value: "zhonghuamen",
-                  label: "Zhong Hua Men"
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      cityOptions
     };
   },
   props: {

@@ -10,8 +10,6 @@ import i18n from './i18n';
 // import { initSentry } from '@ls/utils';
 // initSentry('https://bb6b38a568624851a08fa73d8e4a1426@sentry.lifesense.com/19');
 
-export const Bus = new Vue();
-
 Vue.config.productionTip = false;
 Vue.use(Antd)
 

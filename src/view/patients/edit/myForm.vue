@@ -2,7 +2,7 @@
   <div class="content-container">
     <a-form :form="form" @submit="handleSubmit">
       <a-row type="flex">
-        <a-col :span="9">
+        <div class="flex-auto">
           <a-form-item v-bind="formItemLayout" label="姓名">
             <a-input v-decorator="[
           'name',
@@ -64,7 +64,7 @@
               required: true, message: '请输入体重',
             }]
           }
-        ]" :disabled="true" placeholder="请输入体重" />
+        ]" :disabled="disabled" placeholder="请输入体重" />
           </a-form-item>
           <a-form-item v-bind="formItemLayout" label="腰围（cm）">
             <a-input v-decorator="[
@@ -99,37 +99,129 @@
           }
         ]" :disabled="disabled" placeholder="请输入紧急联系人电话" />
           </a-form-item>
-        </a-col>
-        <a-col :span="12">
+        </div>
+        <div class="flex-auto">
           <a-form-item v-bind="formItemLayout2" label="嗜酒">
-            <a-radio-group v-decorator="['drinkFlag',{
+            <a-row type="flex">
+              <a-radio-group v-decorator="['drinkFlag',{
               initialValue:formData.drinkFlag,
               rules: [{
                 required: true, message: '请选择嗜酒',
               }]
-              }]">
-              <a-radio value="0">否</a-radio>
-              <a-radio value="1">是</a-radio>
-            </a-radio-group>
-            <a-form-item v-if="form.getFieldValue('drinkFlag')==1" v-bind="formItemLayout">
-              <a-input v-decorator="[
-          'drinkYearNum',
-          {
-              initialValue:formData.drinkYearNum
-          }
-        ]" :disabled="disabled" addonBefore="请提供" addonAfter="年" />
-            </a-form-item>
+              }]" :disabled="disabled">
+                <a-radio value="0">否</a-radio>
+                <a-radio value="1">是</a-radio>
+              </a-radio-group>
+              <div class="flex-auto" v-if="form.getFieldValue('drinkFlag')==1">
+                <a-row type="flex">
+                  <a-form-item style="width:150px;margin-right:10px;">
+                    <a-input v-decorator="
+                    ['drinkYearNum',
+                      {
+                        initialValue:formData.drinkYearNum
+                    }]" :disabled="disabled" addonBefore="请提供" addonAfter="年" />
+                  </a-form-item>
+                  <a-form-item style="width:150px">
+                    <a-input v-decorator="
+                    ['drinkAvgQuantity',
+                      {
+                        initialValue:formData.drinkAvgQuantity
+                    }]" :disabled="disabled" addonBefore="平均" addonAfter="两/天" />
+                  </a-form-item>
+                </a-row>
+                <a-form-item v-bind="formItemLayout3" label="种类">
+                  <a-checkbox-group v-decorator="
+                    ['drinkType', 
+                    {
+                      initialValue: formData.drinkType,
+                      rules: [{
+                        required: true, message: '请选择种类',
+                      }]
+                 }]" :disabled="disabled">
+                    <a-checkbox value="白酒">白酒</a-checkbox>
+                    <a-checkbox value="红酒">红酒</a-checkbox>
+                    <a-checkbox value="啤酒">啤酒</a-checkbox>
+                    <a-checkbox value="其他">其他</a-checkbox>
+                  </a-checkbox-group>
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout3" label="戒酒">
+                  <a-row type='flex'>
+                    <a-radio-group v-decorator="['drinkAbstinenceFlag',{
+                        initialValue:formData.drinkAbstinenceFlag,
+                        rules: [{
+                          required: true, message: '请选择戒酒',
+                        }]
+                    }]" :disabled="disabled">
+                      <a-radio value="0">否</a-radio>
+                      <a-radio value="1">是</a-radio>
+                    </a-radio-group>
+                    <div v-if="form.getFieldValue('drinkAbstinenceFlag')==1">
+                      <a-form-item style="width:150px">
+                        <a-input v-decorator="
+                        ['drinkAbstinenceYearNum',
+                          {
+                            initialValue:formData.drinkAbstinenceYearNum
+                        }]" :disabled="disabled" addonBefore="已戒" addonAfter="年" />
+                      </a-form-item>
+                    </div>
+                  </a-row>
+                </a-form-item>
+              </div>
+            </a-row>
           </a-form-item>
           <a-form-item v-bind="formItemLayout2" label="嗜烟">
-            <a-radio-group v-decorator="['smokeFlag',{
-              initialValue:formData.smokeFlag,
-              rules: [{
-                required: true, message: '请选择嗜烟',
-              }]
-              }]">
-              <a-radio value="0">否</a-radio>
-              <a-radio value="1">是</a-radio>
-            </a-radio-group>
+            <a-row type="flex">
+              <a-radio-group v-decorator="['smokeFlag',{
+                initialValue:formData.smokeFlag,
+                rules: [{
+                  required: true, message: '请选择嗜烟',
+                }]
+              }]" :disabled="disabled">
+                <a-radio value="0">否</a-radio>
+                <a-radio value="1">是</a-radio>
+              </a-radio-group>
+              <div class="flex-auto" v-if="form.getFieldValue('smokeFlag')==1">
+                <a-row type="flex">
+                  <a-form-item style="width:150px;margin-right:10px;">
+                    <a-input v-decorator="
+                    ['smokeYearNum',
+                      {
+                        initialValue:formData.smokeYearNum
+                    }]" :disabled="disabled" addonBefore="请提供" addonAfter="年" />
+                  </a-form-item>
+                  <a-form-item style="width:150px">
+                    <a-input v-decorator="
+                    ['smokeAvgQuantity',
+                      {
+                        initialValue:formData.smokeAvgQuantity
+                    }]" :disabled="disabled" addonBefore="平均" addonAfter="两/天" />
+                  </a-form-item>
+                </a-row>
+                <a-form-item v-bind="formItemLayout3" label="戒烟">
+                  <a-row type='flex'>
+                    <a-radio-group v-decorator="['smokeAbstinenceFlag',{
+                        initialValue:formData.smokeAbstinenceFlag,
+                        rules: [{
+                          required: true, message: '请选择戒烟',
+                        }]
+                    }]" :disabled="disabled">
+                      <a-radio value="0">否</a-radio>
+                      <a-radio value="1">是</a-radio>
+                    </a-radio-group>
+                    <div v-if="form.getFieldValue('smokeAbstinenceFlag')==1">
+                      <a-form-item style="width:150px">
+                        <a-input v-decorator="
+                        ['smokeAbstinenceYearNum',
+                          {
+                            initialValue:formData.smokeAbstinenceYearNum
+                        }]" :disabled="disabled" addonBefore="已戒" addonAfter="年" />
+                      </a-form-item>
+                    </div>
+                  </a-row>
+                </a-form-item>
+              </div>
+            </a-row>
+
           </a-form-item>
           <a-form-item v-bind="formItemLayout2" label="既往病史">
             <a-checkbox-group v-decorator="['historyDisease', {
@@ -155,7 +247,7 @@
               <a-checkbox value="其他">其他</a-checkbox>
             </a-checkbox-group>
           </a-form-item>
-        </a-col>
+        </div>
       </a-row>
 
       <a-form-item v-if="!disabled" v-bind="tailFormItemLayout">
@@ -195,11 +287,21 @@ export default {
       formItemLayout2: {
         labelCol: {
           xs: { span: 24 },
-          sm: { span: 7 }
+          sm: { span: 4 }
         },
         wrapperCol: {
           xs: { span: 24 },
-          sm: { span: 17 }
+          sm: { span: 20 }
+        }
+      },
+      formItemLayout3: {
+        labelCol: {
+          xs: { span: 24 },
+          sm: { span: 4 }
+        },
+        wrapperCol: {
+          xs: { span: 24 },
+          sm: { span: 20 }
         }
       },
       tailFormItemLayout: {
@@ -263,6 +365,12 @@ export default {
 </script>
 
 <style scoped lang="less">
+// .inline-form-item{
+//   display: inline-block;
+// }
+.flex-auto {
+  flex: auto;
+}
 .content-container {
   // margin
   padding-left: 30px;

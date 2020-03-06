@@ -1,7 +1,6 @@
 <template>
   <div class="edit-wrap">
-    <!-- <back-header title="新增机构"></back-header> -->
-    <bread-crumb></bread-crumb>
+    <back-header title="新增机构"></back-header>
     <div class="form-wrap">
       <organ-form :id="id" :editType="editType"></organ-form>
     </div>
@@ -11,7 +10,6 @@
 <script>
 import OrganForm from "./myForm";
 import BackHeader from "@/view/layout/backHeader";
-import BreadCrumb from "@/view/layout/BreadcrumbHeader";
 export default {
   data() {
     return {
@@ -21,8 +19,7 @@ export default {
   },
   components: {
     BackHeader,
-    OrganForm,
-    BreadCrumb
+    OrganForm
   },
   created() {
     let {

@@ -114,6 +114,7 @@ export default {
     BreadCrumb:() => import('@/view/layout/BreadcrumbHeader')
   },
   mounted() {
+    console.log(this.$route)
     this.getOrgList();
   },
   methods: {

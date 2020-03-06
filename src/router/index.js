@@ -176,10 +176,25 @@ let syncRoutes = [
     },
     children: [
       {
+        path: 'updatePassword',
+        name: 'updatePassword',
+        redirect:'/forget',
+        component: () => import('@/view/login/forget'),
+        meta: {
+          key: 'updatePassword',
+          title: '修改密码',
+          keepAlive: true,
+          menu: {
+            icon: () => import('@/assets/img/sider/organization.svg')
+          }
+        }
+      },
+      {
         path: 'organization',
         name: 'organization',
         component: () => import('@/view/organization'),
         meta: {
+          roles: ['organManager', 'teamManager', 'doctorManager'],
           key: 'organization',
           title: '人员架构',
           keepAlive: true,
@@ -200,14 +215,20 @@ let router = new Router({
 //过滤授权的路由
 const filterRoutes = () => {
   let { role } = getRolesInfo()
-  syncRoutes = syncRoutes.filter(item => {
-    if (item.meta && item.meta.roles) {
-      if (item.meta.roles.indexOf(role) < 0) {
-        return false;
+  const func = (routes) => {
+    return routes.filter(item => {
+      if (item.meta && item.meta.roles) {
+        if (item.meta.roles.indexOf(role) < 0) {
+          return false;
+        }
       }
-    }
-    return true
-  })
+      if(item.children&&item.children.length!=0){
+        item.children = func(item.children)
+      }
+      return true
+    })
+  }
+  syncRoutes = func(syncRoutes)
   return syncRoutes
 }
 
@@ -237,6 +258,9 @@ router.beforeEach((to, from, next) => {
               {
                 key: 'setting',
                 children: [
+                  {
+                    key: 'updatePassword'
+                  },
                   {
                     key: 'organization'
                   }

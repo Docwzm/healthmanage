@@ -14,6 +14,8 @@ const mutations = {
         } else {
           if (findMenu.children) {
             route.children = func(route.children, findMenu.children);
+          }else{
+            route.children = [];
           }
         }
         return true;
@@ -21,6 +23,7 @@ const mutations = {
       return _route;
     };
     state.menu = func(routes, menu);
+    console.log('state.menu',state.menu)
   },
   // 设置路由
   [types.SET_ROUTES](state, routes) {

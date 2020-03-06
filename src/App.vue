@@ -42,5 +42,18 @@ export default {
       }
     }
   }
+  .ant-form {
+    .ant-row {
+      margin: 0 0 10px 0;
+      &:last-child {
+        margin: 0;
+      }
+      .ant-row {
+        .ant-row {
+          margin: 0;
+        }
+      }
+    }
+  }
 }
 </style>

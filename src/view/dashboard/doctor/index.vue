@@ -90,6 +90,7 @@
   border-radius: 20px 0 0 20px;
   .title {
     padding: 20px 10px 20px 20px;
+    font-size:20px;
   }
   .ant-table-wrapper {
     margin-left: 10px;
@@ -121,6 +122,7 @@
     }
     .progress-wrap {
       margin-bottom: 2px;
+      font-size:0;
     }
   }
   .concat-wrap{

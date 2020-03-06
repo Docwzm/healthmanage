@@ -11,8 +11,7 @@
             <Sider></Sider>
           </a-layout-sider>
           <a-layout class="content ct">
-            
-            
+
             <a-layout-content>
               <router-view></router-view>
             </a-layout-content>
@@ -40,8 +39,12 @@ export default {
   data() {
     return {
       collapsed: false, // 侧边栏是否展开
-      locale: localStorage.getItem("lang") === "ZH_CN" ? ZH_CN : EN
+      locale: ZH_CN
     };
+  },
+  created() {
+    let lang = localStorage.getItem("lang");
+    this.locale = lang ? (lang === "ZH_CN" ? ZH_CN : EN) : ZH_CN;
   },
   methods: {
     handleHide() {
@@ -56,7 +59,7 @@ export default {
   watch: {
     lang(newVal) {
       newVal === "ZH_CN" ? (this.locale = ZH_CN) : (this.locale = EN);
-    },
+    }
   },
   components: {
     Sider,
@@ -71,13 +74,13 @@ export default {
 #app {
   width: 100%;
   height: 100%;
-  .container-wrap{
-    height:100%;
+  .container-wrap {
+    height: 100%;
   }
   .container {
     min-height: 100%;
     // min-width: 1370px; // 设置屏幕的最小宽度
-    
+
     .sider {
       background-color: #0050b3;
     }
@@ -101,7 +104,7 @@ export default {
     left: 0;
     top: 0;
     z-index: 9;
-    right:0;
+    right: 0;
     // min-width: 1370px; // 设置屏幕的最小宽度
   }
 
@@ -113,8 +116,8 @@ export default {
     padding-top: 60px;
   }
 
-  .main-content{
-    margin:24px;
+  .main-content {
+    margin: 24px;
   }
 
   .lay-footer {
