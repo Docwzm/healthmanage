@@ -1,9 +1,9 @@
 <template>
   <a-row class="main" type="flex" justify="space-between">
     <a-row class="top" type="flex" align="middle">
-      <!-- <div :class="collapsed? 'menu-fold-wrap':'menu-unfold-wrap'">
+      <div class="menu-wrap">
         <a-icon class="fold" :type="collapsed? 'menu-fold':'menu-unfold'" @click="handleHide" />
-      </div> -->
+      </div>
       <a-row class="info-wrap" type="flex" align="middle">
         <a-icon :component="svg.logoIcon"></a-icon>
         <span>罗湖医院</span>
@@ -79,7 +79,7 @@ export default {
 
 <style scoped lang="less">
 .main {
-  padding: 0 24px;
+  padding: 0 24px 0 0;
   overflow: hidden;
 }
 .top {
@@ -89,14 +89,12 @@ export default {
   }
   .fold {
     cursor: pointer;
+
   }
-  .menu-fold-wrap {
-    width: 80px;
+  .menu-wrap {
     text-align: right;
-  }
-  .menu-unfold-wrap {
-    width: 256px;
-    text-align: right;
+    overflow: hidden;
+    height:50px;
   }
 }
 </style>

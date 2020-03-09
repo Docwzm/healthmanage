@@ -1,5 +1,5 @@
 <template>
-  <a-row class="breadcrumb-container" type="flex" justify="space-between">
+  <a-row class="breadcrumb-container" type="flex" justify="space-between" align="middle">
     <a-breadcrumb :routes="breadRoutes">
       <template slot="itemRender" slot-scope="{route, params, routes, paths}">
         <span v-if="routes.indexOf(route) === routes.length - 1">
@@ -10,7 +10,10 @@
         </router-link>
       </template>
     </a-breadcrumb>
-    <a-button v-if="showBtn" type="primary" @click="add">{{btnName}}</a-button>
+    <!-- <a-button v-if="showBtn" type="primary" @click="add">{{btnName}}</a-button> -->
+    <div class="btn-wrap">
+      <slot name='right-btn'></slot>
+    </div>
   </a-row>
 </template>
 
@@ -24,7 +27,8 @@ export default {
       breadRoutes: [],
       btnName: "",
       showBtn: false,
-      queryParmas: { id: 1 }
+      queryParmas: { id: 1 },
+      flag:false
     };
   },
   computed: {
@@ -32,29 +36,29 @@ export default {
   },
   mounted() {
     this.initBreadCrumb(this.$route.meta.key);
-    this.changeBtn();
   },
   watch: {
     $route(to, from) {
+      this.flag = false;
+      this.breadRoutes = []
       this.initBreadCrumb(to.meta.key);
-      this.changeBtn();
     }
   },
   methods: {
-    initBreadCrumb(breadCrumbName) {
+    initBreadCrumb(breadcrumbName) {
       let { organId, teamId, doctorId } = this.$route.query;
-
       this.routes.map(item => {
-        if (item.meta && item.meta.key === breadCrumbName) {
+        if (item.meta && item.meta.key === breadcrumbName) {
+          this.flag = true;
           let query = "";
           switch (item.meta.key) {
-            case "teams":
+            case "rpm_depart_manage":
               query = filterQuery({ organId });
               break;
-            case "doctors":
+            case "rpm_doctor_manage":
               query = filterQuery({ organId, teamId });
               break;
-            case "patients":
+            case "rpm_patient_manage":
               query = ``;
               break;
           }
@@ -70,38 +74,13 @@ export default {
         }
       });
 
-      // this.$route.matched.map(item => {
-
-      // })
-
-    },
-    changeBtn() {
-      let btnName = "";
-      let showBtn = false;
-      let routeName = this.$route.name;
-      switch (routeName) {
-        case "organs":
-          btnName = "新增机构";
-          showBtn = true;
-          break;
-        case "teams":
-          btnName = "新增团队";
-          showBtn = true;
-          break;
-        case "doctors":
-          btnName = "新增医生";
-          showBtn = true;
-          break;
-        case "patients":
-          btnName = "新增患者";
-          showBtn = true;
-          break;
+      if (!this.flag) {
+        this.breadRoutes.unshift({
+          path: this.$route.path,
+          key: this.$route.name,
+          breadcrumbName: this.$route.meta.title
+        });
       }
-      this.btnName = btnName;
-      this.showBtn = showBtn;
-    },
-    add() {
-      this.$router.push(`${this.$route.path}/edit`);
     }
   }
 };

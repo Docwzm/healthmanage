@@ -2,15 +2,17 @@
   <div class="container-wrap">
     <a-locale-provider :locale="locale">
       <a-layout class="container">
-        <a-layout-header class="container-header">
-          <Header :collapsed="collapsed" @handleHide="handleHide"></Header>
-        </a-layout-header>
         <!--侧边栏-->
         <a-layout class="main-container">
+          
           <a-layout-sider class="sider" width="256" :trigger="null" collapsible v-model="collapsed">
-            <Sider></Sider>
+            <Sider :collapsed="collapsed"></Sider>
           </a-layout-sider>
+
           <a-layout class="content ct">
+            <a-layout-header :class="!collapsed?'container-header':'container-header container-header-collapsed'">
+              <Header :collapsed="collapsed" @handleHide="handleHide"></Header>
+            </a-layout-header>
 
             <a-layout-content>
               <router-view></router-view>
@@ -90,6 +92,7 @@ export default {
     background-color: rgba(240, 242, 245, 1);
     padding-bottom: 110px;
     width: calc(100% - 256px);
+    padding-top:60px;
   }
 
   .ct {
@@ -101,11 +104,14 @@ export default {
     height: 60px;
     padding: 0;
     position: fixed;
-    left: 0;
+    left: 256px;
     top: 0;
     z-index: 9;
     right: 0;
     // min-width: 1370px; // 设置屏幕的最小宽度
+  }
+  .container-header-collapsed{
+    left:80px
   }
 
   .breadcrumb-header {
@@ -113,7 +119,7 @@ export default {
   }
 
   .main-container {
-    padding-top: 60px;
+    // padding-top: 60px;
   }
 
   .main-content {

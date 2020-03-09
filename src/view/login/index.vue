@@ -121,7 +121,7 @@
     }
 
     .form {
-      margin: 0 60px;
+      margin: 50px 60px 0;
     }
 
     .forget {
@@ -412,14 +412,14 @@
               <!---->
             </div>
           </div>
-          <div class="tabs">
+          <!-- <div class="tabs">
             <div class="item" @click="roleType=0" :class="{'item-active':roleType == 0}">
               医生
             </div>
             <div class="item" @click="roleType=1" :class="{'item-active':roleType == 1}">
               管理员
             </div>
-          </div>
+          </div> -->
           <div class="form">
             <a-form :form="form" @submit="handleSubmit">
               <a-form-item :label-col="formItemLayout.labelCol"
@@ -761,7 +761,7 @@ export default {
     handleSubmit(e) {
       e.preventDefault();
       localStorage.setItem(
-        "lifesense_medical_user",
+        "lifesense_medical_token",
         JSON.stringify({
           roles: 1
         })

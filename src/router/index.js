@@ -4,11 +4,12 @@ import store from '../store/index'
 import { ROLES } from '@/utils/enum'
 import { getRolesInfo } from '@/utils/roles'
 import { authCheck } from '../api/login'
+// import {syncRouterMap,constantRouterMap} from './routes'
 Vue.use(Router);
 
 const whiteRoutes = ['login', 'forget']//路由白名单
 
-let staticRoutes = [
+const constantRouterMap = [
   {
     path: '/login',
     component: () => import('@/view/login'),
@@ -29,32 +30,45 @@ let staticRoutes = [
     name: 'home',
     redirect: '/dashboard'
   },
+  // {
+  //     path: '/dashboard',
+  //     component: () => import('@/view/dashboard'),
+  //     name: 'dashboard'
+  // }
+]
+
+let syncRouterMap = [
   {
     path: '/dashboard',
     component: () => import('@/view/dashboard'),
-    name: 'dashboard'
-  }
-]
-//授权路由汇总
-let syncRoutes = [
+    name: 'dashboard',
+    meta: {
+      key: ['rpm_org_dashboard', 'rpm_depart_dashboard', 'rpm_doctor_dashboard'],
+      title: 'dashboard',
+      keepAlive: true,
+      menu: {
+        icon: () => import('@/assets/img/sider/organization.svg')
+      }
+    }
+  },
   {
     path: '/organs',
     meta: {
-      key: 'organs',
+      key: 'rpm_org_manage',
       roles: ['organManager'],
       title: '机构管理',
       keepAlive: true,
       menu: {
         icon: () => import('@/assets/img/sider/organization.svg')
-      },
+      }
     },
     component: () => import('@/view/layout'),
     children: [
       {
         path: '',
-        name: 'organs',
+        name: 'rpm_org_manage',
         meta: {
-          key: 'organs'
+          key: 'rpm_org_manage'
         },
         component: () => import('@/view/organs'),
       },
@@ -71,10 +85,10 @@ let syncRoutes = [
   {
     path: '/teams',
     meta: {
-      key: 'teams',
+      key: 'rpm_depart_manage',
       roles: ['organManager', 'teamManager'],
       title: '团队管理',
-      parentBreadCrumb: 'organs',
+      parentBreadCrumb: 'rpm_org_manage',
       keepAlive: true,
       menu: {
         icon: () => import('@/assets/img/sider/organization.svg')
@@ -84,9 +98,9 @@ let syncRoutes = [
     children: [
       {
         path: '',
-        name: 'teams',
+        name: 'rpm_depart_manage',
         meta: {
-          key: 'teams'
+          key: 'rpm_depart_manage'
         },
         component: () => import('@/view/teams'),
       },
@@ -103,10 +117,10 @@ let syncRoutes = [
   {
     path: '/doctors',
     meta: {
-      key: 'doctors',
+      key: 'rpm_doctor_manage',
       title: '医生管理',
       roles: ['organManager', 'teamManager', 'doctorManager'],
-      parentBreadCrumb: 'teams',
+      parentBreadCrumb: 'rpm_depart_manage',
       keepAlive: true,
       menu: {
         icon: () => import('@/assets/img/sider/organization.svg')
@@ -116,9 +130,9 @@ let syncRoutes = [
     children: [
       {
         path: '',
-        name: 'doctors',
+        name: 'rpm_doctor_manage',
         meta: {
-          key: 'doctors'
+          key: 'rpm_doctor_manage'
         },
         component: () => import('@/view/doctors'),
       },
@@ -135,10 +149,10 @@ let syncRoutes = [
   {
     path: '/patients',
     meta: {
-      key: 'patients',
+      key: 'rpm_patient_manage',
       title: '患者管理',
       roles: ['organManager', 'teamManager', 'doctorManager', 'doctor'],
-      parentBreadCrumb: 'doctors',
+      parentBreadCrumb: 'rpm_doctor_manage',
       keepAlive: true,
       menu: {
         icon: () => import('@/assets/img/sider/organization.svg')
@@ -148,9 +162,9 @@ let syncRoutes = [
     children: [
       {
         path: '',
-        name: 'patients',
+        name: 'rpm_patient_manage',
         meta: {
-          key: 'patients'
+          key: 'rpm_patient_manage'
         },
         component: () => import('@/view/patients'),
       },
@@ -161,6 +175,29 @@ let syncRoutes = [
           key: 'patientsEdit'
         },
         component: () => import('@/view/patients/edit'),
+      }
+    ]
+  },
+  {
+    path: '/abnormal-patients',
+    meta: {
+      key: 'sign_data_manage',
+      title: '体征异常管理',
+      roles: ['organManager', 'teamManager', 'doctorManager', 'doctor'],
+      keepAlive: true,
+      menu: {
+        icon: () => import('@/assets/img/sider/organization.svg')
+      }
+    },
+    component: () => import('@/view/layout'),
+    children: [
+      {
+        path: '',
+        name: 'sign_data_manage',
+        meta: {
+          key: 'sign_data_manage'
+        },
+        component: () => import('@/view/patients/abnormal'),
       }
     ]
   },
@@ -176,17 +213,26 @@ let syncRoutes = [
     },
     children: [
       {
-        path: 'updatePassword',
-        name: 'updatePassword',
-        redirect:'/forget',
-        component: () => import('@/view/login/forget'),
+        path: '/device',
+        name: 'device',
+        component: () => import('@/view/device'),
         meta: {
-          key: 'updatePassword',
-          title: '修改密码',
+          key: 'device',
+          title: '设备管理',
           keepAlive: true,
           menu: {
             icon: () => import('@/assets/img/sider/organization.svg')
           }
+        }
+      },
+      {
+        path: '/device/edit',
+        name: 'deviceEdit',
+        component: () => import('@/view/device/edit'),
+        meta: {
+          key: 'deviceEdit',
+          title: '设备编辑',
+          keepAlive: true
         }
       },
       {
@@ -202,6 +248,20 @@ let syncRoutes = [
             icon: () => import('@/assets/img/sider/organization.svg')
           }
         }
+      },
+      {
+        path: 'updatePassword',
+        name: 'updatePassword',
+        redirect: '/forget',
+        component: () => import('@/view/login/forget'),
+        meta: {
+          key: 'updatePassword',
+          title: '修改密码',
+          keepAlive: true,
+          menu: {
+            icon: () => import('@/assets/img/sider/organization.svg')
+          }
+        }
       }
     ]
   },
@@ -209,7 +269,7 @@ let syncRoutes = [
 ]
 
 let router = new Router({
-  routes: staticRoutes,
+  routes: constantRouterMap,
 });
 
 //过滤授权的路由
@@ -222,14 +282,14 @@ const filterRoutes = () => {
           return false;
         }
       }
-      if(item.children&&item.children.length!=0){
+      if (item.children && item.children.length != 0) {
         item.children = func(item.children)
       }
       return true
     })
   }
-  syncRoutes = func(syncRoutes)
-  return syncRoutes
+  syncRouterMap = func(syncRouterMap)
+  return syncRouterMap
 }
 
 
@@ -238,7 +298,7 @@ router.beforeEach((to, from, next) => {
 
   if (whiteRoutes.indexOf(to.name) < 0) {
     //检查用户是否登录
-    let user = localStorage.getItem('lifesense_medical_user')
+    let user = localStorage.getItem('lifesense_medical_token')
     if (user) {
       try {
         user = JSON.parse(user)
@@ -248,21 +308,27 @@ router.beforeEach((to, from, next) => {
         if (!menu) {
           let accessRoutes = filterRoutes()
           router.addRoutes(accessRoutes)
-          store.commit('SET_ROUTES', staticRoutes.concat(accessRoutes))
+          store.commit('SET_ROUTES', constantRouterMap.concat(accessRoutes))
           store.commit('SET_MENU', {
-            routes: staticRoutes.concat(accessRoutes),
+            routes: constantRouterMap.concat(accessRoutes),
             menu: [
               {
-                key: 'organs'
+                key: 'rpm_org_dashboard'
+              },
+              {
+                key: 'rpm_org_manage'
               },
               {
                 key: 'setting',
                 children: [
                   {
-                    key: 'updatePassword'
+                    key:'device'
                   },
                   {
                     key: 'organization'
+                  },
+                  {
+                    key: 'updatePassword'
                   }
                 ]
               }

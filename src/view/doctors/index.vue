@@ -1,7 +1,11 @@
 <template>
   <div class="main">
     <a-row class="content-container">
-      <bread-crumb></bread-crumb>
+      <bread-crumb>
+        <template slot="right-btn">
+          <a-button type="primary" @click="gotoEdit">新增医生</a-button>
+        </template>
+      </bread-crumb>
       <a-row type="flex" justify="space-between" align="middle" class="top">
         <a-row type="flex">
           <div class="title">团队一(共6名医生)</div>
@@ -117,6 +121,9 @@ export default {
     this.getDoctorList();
   },
   methods: {
+    gotoEdit() {
+      this.$router.push("/doctors/edit");
+    },
     gotoPatients(info) {
       let { id } = info;
       let { organId, teamId } = this.$route.query;

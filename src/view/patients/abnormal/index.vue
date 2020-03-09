@@ -1,27 +1,23 @@
 <template>
   <div class="main">
     <a-row class="content-container">
-      <bread-crumb>
-        <template slot="right-btn">
-          <a-button type="primary" @click="gotoEdit">新增团队</a-button>
-        </template>
-      </bread-crumb>
+      <bread-crumb></bread-crumb>
       <a-row type="flex" justify="space-between" align="middle" class="top">
         <a-row type="flex">
-          <div class="title">社康1(共6团队)</div>
-          <div class="date-range">{{$t('common.dateRange')}}：2020/02/01--2020/03/01</div>
+          <div class="title">共200名患者</div>
         </a-row>
         <a-row>
-          <a-input :placeholder="$t('teams.namePlaceholder')" class="name-input"
-            @change="nameChange" />
-          <a-range-picker @change="dateChange" />
+          <a-input placeholder="请输入患者姓名" class="name-input" @change="nameChange" />
         </a-row>
       </a-row>
       <a-row>
         <a-table :pagination="pagination" :columns="columns" :dataSource="list" :loading="loading"
           rowKey="id">
+          <a-row slot="sex" slot-scope="sex">
+            {{sex===1?'男':'女'}}
+          </a-row>
           <a-row slot="option" slot-scope="info">
-            <a-button @click="gotoDoctors(info)">{{$t('common.check')}}</a-button>
+            <a-button @click="gotoDetail(info)">{{$t('common.check')}}</a-button>
           </a-row>
         </a-table>
       </a-row>
@@ -38,65 +34,72 @@ export default {
       list: [
         {
           id: 1,
-          name: "团队一",
-          missionCount: 1000,
-          patientCount: 100,
-          selectCount: 100,
-          findCount: 1000,
-          manageCount: 10000,
-          gfCount: 10000,
-          controlCount: 200,
-          ycPer: "50%"
+          name: "患者1",
+          sex: 1,
+          age: 29,
+          disease: "高血压 | 糖尿病",
+          bloodPressure: "130/99",
+          bloodSugar: 5.3,
+          depometer: 5000,
+          heart: 63,
+          bmi: 12,
+          sleep: "8h"
         },
         {
           id: 2,
-          name: "团队二",
-          missionCount: 1000,
-          patientCount: 100,
-          selectCount: 100,
-          findCount: 1000,
-          manageCount: 10000,
-          gfCount: 10000,
-          controlCount: 200,
-          ycPer: "50%"
+          name: "患者2",
+          sex: 2,
+          age: 29,
+          disease: "高血压 | 糖尿病",
+          bloodPressure: "130/99",
+          bloodSugar: 5.3,
+          depometer: 5000,
+          heart: 63,
+          bmi: 12,
+          sleep: "8h"
         }
       ],
       columns: [
         {
-          title: this.$t("teams.name"),
+          title: this.$t("patients.name"),
           dataIndex: "name"
         },
         {
-          title: this.$t("teams.missionCount"),
-          dataIndex: "missionCount"
+          title: this.$t("common.sex"),
+          dataIndex: "sex",
+          scopedSlots: { customRender: "sex" }
         },
         {
-          title: this.$t("common.patientCount"),
-          dataIndex: "patientCount"
+          title: this.$t("common.age"),
+          dataIndex: "age"
         },
         {
-          title: this.$t("common.selectCount"),
-          dataIndex: "selectCount"
+          title: this.$t("common.disease"),
+          dataIndex: "disease"
         },
         {
-          title: this.$t("common.findCount"),
-          dataIndex: "findCount"
+          title: `${this.$t("common.bloodPressure")}(mmHg)`,
+          dataIndex: "bloodPressure"
         },
         {
-          title: this.$t("common.manageCount"),
-          dataIndex: "manageCount"
+          title: `${this.$t("common.bloodSugar")}(mmol/L)`,
+          dataIndex: "bloodSugar"
         },
         {
-          title: this.$t("common.gfCount"),
-          dataIndex: "gfCount"
+          title: this.$t("common.depometer"),
+          dataIndex: "depometer"
         },
         {
-          title: this.$t("common.controlCount"),
-          dataIndex: "controlCount"
+          title: this.$t("common.heart"),
+          dataIndex: "heart"
         },
         {
-          title: this.$t("common.ycPer"),
-          dataIndex: "ycPer"
+          title: "BMI",
+          dataIndex: "bmi"
+        },
+        {
+          title: this.$t("common.sleep"),
+          dataIndex: "sleep"
         },
         {
           title: this.$t("common.option"),
@@ -118,23 +121,12 @@ export default {
     BreadCrumb
   },
   mounted() {
-    this.getTeamList();
+    this.getPatientList();
   },
   methods: {
-    gotoEdit() {
-      this.$router.push('/teams/edit')
-    },
-    gotoDoctors(info) {
-      let { id } = info;
-      let { organId } = this.$route.query;
-      this.$router.push(`/doctors${filterQuery({ organId, teamId: id })}`);
-    },
-    getTeamList() {},
+    getPatientList() {},
     nameChange(e) {
       let value = e.target.value;
-    },
-    dateChange(dateArr) {
-      console.log(dateArr);
     },
     onShowSizeChange(current, pageSize) {
       let pager = { ...this.pagination };
@@ -143,7 +135,19 @@ export default {
       this.pageNum = 1;
       this.pageSize = pageSize;
       this.pageSizeChange = true;
-      this.getTeamList();
+      this.getPatientList();
+    },
+    gotoDetail(data) {
+      let { id } = data;
+      let { organId, teamId, doctorId } = this.$route.query;
+      // this.$router.push(
+      //   `/patients${filterQuery({
+      //     organId,
+      //     teamId,
+      //     doctorId,
+      //     patientId: id
+      //   })}`
+      // );
     }
   },
   computed: {

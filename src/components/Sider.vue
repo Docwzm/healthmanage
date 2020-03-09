@@ -5,10 +5,12 @@ export default {
     return {
       routes: this.$router.options.routes,
       selectedKey: [],
-      collapsed: false,
       list: [],
       accessMenuRoute: []
     };
+  },
+  props: {
+    collapsed:false
   },
   computed: {
     ...mapGetters(["menu"])
@@ -26,19 +28,15 @@ export default {
       this.$router.push(path);
     },
     changeSelectedKey(matchedRoutes) {
-      this.selectedKey = []
+      this.selectedKey = [];
       matchedRoutes.map(item => {
         if (item.meta.menu) {
-          this.selectedKey.push(item.meta.key);
+          this.selectedKey.push(item.path);
         }
       });
     },
     showMenu(route) {
       return route.meta && route.meta.menu;
-    },
-    toggleCollapsed() {
-      // 切换菜单伸缩
-      this.collapsed = !this.collapsed;
     },
     hasOneMenuChild(route) {
       if (!route.children || route.children.length == 0) {
@@ -58,15 +56,24 @@ export default {
   },
 
   render() {
+    const style = {
+      width: this.collapsed ? "auto" : "256px"
+    };
+
     const renderMenuItem = (parentPath, route) => {
-      parentPath = parentPath
-        ? parentPath + "/"
-        : route.path.indexOf("/") == 0
-        ? ""
-        : "/";
+      if (route.path.indexOf("/") == 0) {
+        parentPath = "";
+      } else {
+        parentPath = parentPath
+          ? parentPath + "/"
+          : route.path.indexOf("/") == 0
+          ? ""
+          : "/";
+      }
+
       return this.hasOneMenuChild(route) ? (
         <a-menu-item
-          key={route.meta.key}
+          key={route.path}
           onClick={() => this.jumpTo(parentPath + route.path)}
           class="menu-item"
         >
@@ -87,22 +94,20 @@ export default {
     };
 
     return (
-      <div style="position: fixed; min-width: 256px;">
-        <a-menu
-          selectedKeys={this.selectedKey}
-          mode="inline"
-          inlineCollapsed={this.collapsed}
-          class="menu"
-          theme="light"
-        >
-          {this.menu.map(route => {
-            if (route.meta && route.meta.menu) {
-              return renderMenuItem(null, route);
-            }
-            return null;
-          })}
-        </a-menu>
-      </div>
+      <a-menu
+        selectedKeys={this.selectedKey}
+        mode="inline"
+        class="menu"
+        theme="light"
+        style={style}
+      >
+        {this.menu.map(route => {
+          if (route.meta && route.meta.menu) {
+            return renderMenuItem(null, route);
+          }
+          return null;
+        })}
+      </a-menu>
     );
   }
 };
@@ -112,8 +117,9 @@ export default {
 .menu {
   background-color: #0050b3;
   color: #fff;
-  width: 100%;
+  width: auto;
   border-right: 1px solid #0050b3;
+  position: fixed;
 }
 
 .menu-item {

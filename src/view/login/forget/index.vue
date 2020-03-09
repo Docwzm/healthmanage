@@ -418,7 +418,7 @@ li {
               </div>
             </li>
             <li class="item">
-              <router-link to="/" class="cancel">取 消</router-link><a href="javascript:;"
+              <a-button @click="handleCancel" class="cancel">取 消</a-button><a href="javascript:;"
                 class="submit" @click="checkForm1Submit">确 认</a>
             </li>
           </ul>
@@ -508,6 +508,9 @@ export default {
     // }, 10);
   },
   methods: {
+    handleCancel(){
+      this.$router.back()
+    },
     phoneFalse() {
       this.error_tips_show = true;
       this.error_tips = this.error_tips_list[0];

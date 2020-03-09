@@ -1,7 +1,11 @@
 <template>
   <div class="main">
     <a-row class="content-container">
-      <bread-crumb></bread-crumb>
+      <bread-crumb>
+        <template slot="right-btn">
+          <a-button type="primary" @click="gotoEdit">新增患者</a-button>
+        </template>
+      </bread-crumb>
       <a-row type="flex" justify="space-between" align="middle" class="top">
         <a-row type="flex">
           <div class="title">共200名患者</div>
@@ -137,17 +141,22 @@ export default {
       this.pageSizeChange = true;
       this.getPatientList();
     },
-    gotoDetail(data) {
+    gotoEdit(){
+      this.$router.push(
+        `/patients/edit`
+      );
+    },
+    gotoDetail(data = {}) {
       let { id } = data;
       let { organId, teamId, doctorId } = this.$route.query;
-      // this.$router.push(
-      //   `/patients${filterQuery({
-      //     organId,
-      //     teamId,
-      //     doctorId,
-      //     patientId: id
-      //   })}`
-      // );
+      this.$router.push(
+        `/patients${filterQuery({
+          organId,
+          teamId,
+          doctorId,
+          patientId: id
+        })}`
+      );
     }
   },
   computed: {

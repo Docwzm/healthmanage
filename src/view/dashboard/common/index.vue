@@ -1402,12 +1402,12 @@
       <div class="right">
         <div class="top-title-bar">
           <p class="title">历史数据概览</p>
-          <!-- <a-select class="year-select" popper-class="year-popper" :value="selectYear"
+          <a-select class="year-select" popper-class="year-popper" :value="selectYear"
             @change="changeYear">
             <a-select-option value="2020">2020</a-select-option>
             <a-select-option value="2019">2019</a-select-option>
-          </a-select> -->
-          <a-date-picker mode="month" />
+          </a-select>
+          <!-- <a-date-picker mode="month" /> -->
         </div>
 
         <div class="top-info">

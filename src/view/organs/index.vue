@@ -1,7 +1,11 @@
 <template>
   <div class="main">
     <a-row class="content-container">
-      <bread-crumb></bread-crumb>
+      <bread-crumb>
+        <template slot="right-btn">
+          <a-button type="primary" @click="gotoEdit">新增机构</a-button>
+        </template>
+      </bread-crumb>
       <a-row type="flex" justify="space-between" align="middle" class="top">
         <a-row type="flex">
           <div class="title">社康机构列表(共6家机构)</div>
@@ -28,7 +32,7 @@
 <script>
 import { filterQuery } from "@/utils/util";
 export default {
-  name:'organs',
+  name: "organs",
   data() {
     return {
       list: [
@@ -110,24 +114,27 @@ export default {
       }
     };
   },
-  components:{
-    BreadCrumb:() => import('@/view/layout/BreadcrumbHeader')
+  components: {
+    BreadCrumb: () => import("@/view/layout/BreadcrumbHeader")
   },
   mounted() {
-    console.log(this.$route)
+    console.log(this.$route);
     this.getOrgList();
   },
   methods: {
-    gotoTeam(data){
+    gotoEdit(){
+      this.$router.push('/organs/edit')
+    },
+    gotoTeam(data) {
       let organId = data.id;
-      this.$router.push(`/teams${filterQuery({organId})}`)
+      this.$router.push(`/teams${filterQuery({ organId })}`);
     },
     getOrgList() {},
-    nameChange(e){
-      let value = e.target.value
+    nameChange(e) {
+      let value = e.target.value;
     },
-    dateChange(dateArr){
-      console.log(dateArr)
+    dateChange(dateArr) {
+      console.log(dateArr);
     },
     onShowSizeChange(current, pageSize) {
       let pager = { ...this.pagination };

@@ -6,15 +6,28 @@ const mutations = {
   },
   // 设置菜单栏导航
   [types.SET_MENU](state, { routes, menu }) {
+    console.log('routes', routes)
+    console.log('menu', menu)
     let func = (routes, menu) => {
       let _route = routes.filter(route => {
-        let findMenu = route.meta && menu && menu.find(item => item.key === route.meta.key)
+        let findMenu = menu.find(item => {
+          if (route.meta) {
+            if(typeof route.meta.key === 'object'){
+              console.log(route.meta.key)
+              return route.meta.key.includes(item.key)
+            }else {
+              return item.key === route.meta.key
+            }
+          }
+        })
+        console.log(findMenu)
+
         if (!findMenu) {
           return false;
         } else {
           if (findMenu.children) {
             route.children = func(route.children, findMenu.children);
-          }else{
+          } else {
             route.children = [];
           }
         }
@@ -23,7 +36,7 @@ const mutations = {
       return _route;
     };
     state.menu = func(routes, menu);
-    console.log('state.menu',state.menu)
+    console.log('state.menu', state.menu)
   },
   // 设置路由
   [types.SET_ROUTES](state, routes) {
