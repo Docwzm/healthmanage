@@ -348,6 +348,13 @@ export default {
       ]
     };
   },
+  beforeRouteEnter(to, from, next) {
+    document.getElementsByTagName("html")[0].style.fontSize = "100px";
+    next()
+  },
+  destroyed() {
+    document.getElementsByTagName("html")[0].style.fontSize = "16px";
+  },
   mounted() {}
 };
 </script>

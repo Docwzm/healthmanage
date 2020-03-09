@@ -13,7 +13,7 @@ export default {
     collapsed:false
   },
   computed: {
-    ...mapGetters(["menu"])
+    ...mapGetters(["roles"])
   },
   watch: {
     $route(to, from) {
@@ -21,6 +21,7 @@ export default {
     }
   },
   created() {
+    this.menu = []
     this.changeSelectedKey(this.$route.matched);
   },
   methods: {

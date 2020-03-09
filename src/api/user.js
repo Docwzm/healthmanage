@@ -22,3 +22,14 @@ export function logout(data) {
         url: SERVICE_NAME + '/common/logout'
     })
 }
+
+
+/**
+ * info
+ * @param {*} data 
+ */
+export function getInfo(data) {
+    return request({
+        url: SERVICE_NAME + '/common/logout'
+    })
+}

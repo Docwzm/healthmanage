@@ -1,20 +1,32 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import createLogger from 'vuex/dist/logger'
-import * as actions from './actions'
-import * as getters from './getters'
-import state from './state'
-import mutations from './mutations'
 
-Vue.use(Vuex);
+import app from './modules/app'
+import user from './modules/user'
 
-const debug = process.env.NODE_ENV !== 'production';
+// default router permission control
+import permission from './modules/permission'
+
+// dynamic router permission control (Experimental)
+// import permission from './modules/async-router'
+import getters from './getters'
+
+Vue.use(Vuex)
 
 export default new Vuex.Store({
-  actions,
-  getters,
-  state,
-  mutations,
-  strict: debug,
-  plugins: debug ? [createLogger()] : []
+  modules: {
+    app,
+    user,
+    permission
+  },
+  state: {
+
+  },
+  mutations: {
+
+  },
+  actions: {
+
+  },
+  getters
 })

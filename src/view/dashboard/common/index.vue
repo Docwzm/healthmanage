@@ -1626,8 +1626,6 @@
 
 <script>
 import echarts from "echarts";
-import { mapGetters } from "vuex";
-import { getRolesInfo } from "@/utils/roles";
 
 export default {
   name: "dashboard",
@@ -1728,8 +1726,12 @@ export default {
       ]
     };
   },
-  computed: {
-    ...mapGetters(["homePage"])
+  beforeRouteEnter(to, from, next) {
+    document.getElementsByTagName("html")[0].style.fontSize = "100px";
+    next()
+  },
+  destroyed() {
+    document.getElementsByTagName("html")[0].style.fontSize = "16px";
   },
   mounted() {
     this.init();
@@ -1759,8 +1761,7 @@ export default {
       );
     },
     gotoControl() {
-      let { homePage } = getRolesInfo();
-      this.$router.push(homePage);
+      this.$router.push('/home');
     },
     handlefullscreen() {
       var docElm = document.documentElement;
