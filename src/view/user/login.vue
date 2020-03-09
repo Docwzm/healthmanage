@@ -2,7 +2,9 @@
 .login-layout-mac {
   font-family: "PingFang SC", "Hiragino Sans GB", Arial, sans-serif;
 }
-
+.form-error-tips{
+  color:red;
+}
 .login-layout {
   min-width: 1190px;
 
@@ -77,8 +79,8 @@
   }
 
   .login-banner {
-    background: url("../../assets/img/login/img-login-background.png")
-      no-repeat center / 100% auto;
+    background: url("../../assets/img/login/img-login-background.png") no-repeat
+      center / 100% auto;
     position: relative;
     z-index: 1;
 
@@ -405,19 +407,10 @@
     <div class="login-banner">
       <div class="layout">
         <div class="login-form">
-          <div class="el-loading-mask common-loading" v-show="loginLoading">
+          <!-- <div class="el-loading-mask common-loading" v-show="loginLoading">
             <div class="el-loading-spinner"><svg viewBox="25 25 50 50" class="circular">
                 <circle cx="50" cy="50" r="20" fill="none" class="path"></circle>
               </svg>
-              <!---->
-            </div>
-          </div>
-          <!-- <div class="tabs">
-            <div class="item" @click="roleType=0" :class="{'item-active':roleType == 0}">
-              医生
-            </div>
-            <div class="item" @click="roleType=1" :class="{'item-active':roleType == 1}">
-              管理员
             </div>
           </div> -->
           <div class="form">
@@ -425,55 +418,39 @@
               <a-form-item :label-col="formItemLayout.labelCol"
                 :wrapper-col="formItemLayout.wrapperCol" label="登录账号">
                 <a-input v-decorator="[
-          'username',
-          {rules: [rules.username]}
-        ]" placeholder="请输入11位手机号码" />
+                  'loginName',
+                  {rules: rules.loginName}
+                ]" placeholder="请输入11位手机号码" />
               </a-form-item>
               <a-form-item :label-col="formItemLayout.labelCol"
                 :wrapper-col="formItemLayout.wrapperCol" label="登录密码">
                 <a-input v-decorator="[
-          'nickname',
-          {rules: [rules.password]}
-        ]" placeholder="请输入6-12位密码" type="password" />
+                  'password',
+                  {rules: rules.password}
+                ]" placeholder="请输入6-12位密码" type="password" />
               </a-form-item>
+
+              <div class="form-error-tips" v-show="error">{{error_tips}}</div>
+
               <a-form-item :label-col="formTailLayout.labelCol"
                 :wrapper-col="formTailLayout.wrapperCol">
                 <a-checkbox v-model="auto_checked">
                   记住密码（7天有效）
                 </a-checkbox>
               </a-form-item>
+
               <a-form-item :label-col="formTailLayout.labelCol"
                 :wrapper-col="formTailLayout.wrapperCol">
                 <a-button type="primary" class="login-btn" html-type="submit">
                   登 录
                 </a-button>
               </a-form-item>
+
               <div class="forget">
                 <router-link to="forget" class="fright">忘记密码？</router-link>
               </div>
-              <div class="form-error-tips" v-show="password_error">{{error_tips}}</div>
             </a-form>
           </div>
-          <!-- <div class="form">
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="top"
-              label-width="200px" class="login-rule-form">
-              <el-form-item label="登录账号" prop="username">
-                <el-input v-model="ruleForm.username" type="text" placeholder="请输入11位手机号码"
-                  @keyup.enter.native="logining('ruleForm')" :maxlength=11></el-input>
-              </el-form-item>
-              <el-form-item label="登录密码" prop="password" :class="{'is-error':password_error}">
-                <el-input v-model="ruleForm.password" type="password" placeholder="请输入6-12位密码"
-                  @keyup.enter.native="logining('ruleForm')" :maxlength=12></el-input>
-              </el-form-item>
-              <el-checkbox v-model="auto_checked">&nbsp;&nbsp;记住密码（7天有效）</el-checkbox>
-              <el-button type="primary" class="login-btn" @click="logining('ruleForm')">登 录
-              </el-button>
-              <div class="forget">
-                <router-link to="forget" class="fright">忘记密码？</router-link>
-              </div>
-              <div class="form-error-tips" v-show="password_error">{{error_tips}}</div>
-            </el-form>
-          </div> -->
         </div>
       </div>
     </div>
@@ -664,16 +641,11 @@ import mod1Icon from "@/assets/svg/img-login-pharmacy-member.svg";
 import mod2Icon from "@/assets/svg/img-login-health-facility.svg";
 import mod3Icon from "@/assets/svg/img-login-brand-custom.svg";
 import { mapMutations } from "vuex";
+import { login } from "@/api/user";
+import md5 from "md5";
+
 export default {
   data() {
-    // var validatePhone = (rule, value, callback) => {
-    //   var phoneRule = /^\d{11}$/;
-    //   if (phoneRule.test(value)) {
-    //     callback();
-    //   } else {
-    //     callback(new Error("请输入11位手机号码"));
-    //   }
-    // };
     return {
       form: this.$form.createForm(this),
       formItemLayout: {
@@ -685,9 +657,9 @@ export default {
         wrapperCol: { span: 24 }
       },
       rules: {
-        username: [
+        loginName: [
           { required: true, message: "请输入11位手机号码", trigger: "blur" },
-          { min: 11, max: 11, message: "请输入11位手机号码", trigger: "blur" }
+          { max: 11, message: "请输入11位手机号码", trigger: "blur" }
         ],
         password: [
           { required: true, message: "请输入6-12位密码", trigger: "blur" },
@@ -696,7 +668,7 @@ export default {
       },
       auto_checked: false,
       phone_error: false,
-      password_error: false,
+      error: false,
       error_tips: "",
       phone: "",
       password: "",
@@ -716,110 +688,41 @@ export default {
       }
     };
   },
-  computed: {},
-  watch: {
-    "ruleForm.password"(val) {
-      this.passwordIsChange = true;
-    }
-  },
   methods: {
     ...mapMutations({
-      setUser: "SET_USER",
-      setMenu: 'SET_MENU'
+      setUser: "SET_USER"
     }),
-    //判断医生是否已认证
-    checkDoctor(user_password) {
-      try {
-        const res = getDoctorApi();
-        if (res) {
-          this.loginLoading = false;
-          localStorage_handle(user_password);
-          if (res.certificationStatus != 2) {
-            this.password_error = true;
-            this.error_tips = "账号未认证";
-            removelocalStorage("accessToken");
-          } else {
-            commit(DOCTORINFO, res);
-            router.push({ path: "/home" });
-            savelocalStorage("roleType", this.roleType);
-          }
-        }
-      } catch (res) {
-        this.loginLoading = false;
-        this.password_error = true;
-        this.error_tips = res.msg;
-        removelocalStorage("accessToken");
-      }
-    },
-
-    //管理员登录
-    adminLogin(user_password) {
-      localStorage_handle(user_password);
-      router.push({ path: "/admin" });
-      savelocalStorage("roleType", this.roleType);
-    },
     handleSubmit(e) {
       e.preventDefault();
-      localStorage.setItem(
-        "lifesense_medical_token",
-        JSON.stringify({
-          roles: 1
-        })
-      );
-      this.setUser({roles:1})
-      this.$router.push('/')
-      return false;
-
-      e.preventDefault();
+      // localStorage.setItem(
+      //   "lifesense_medical_token",
+      //   JSON.stringify({
+      //     roles: 1
+      //   })
+      // );
+      // this.setUser({ roles: 1 });
+      // this.$router.push("/");
+      // return false;
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log("Received values of form: ", values);
-        }
-      });
-
-      this.$refs[formName].validate(async (valid, callback) => {
-        if (valid) {
-          this.loginLoading = true;
-          var user_password = "";
-          // if (getlocalStorage("autoLogin") && getlocalStorage("userPassword")) {
-          //   if (this.passwordIsChange) {
-          //     user_password = md5(this.ruleForm.password);
-          //   } else {
-          //     user_password = this.rememberPassword;
-          //   }
-          // } else {
-          //   user_password = md5(this.ruleForm.password);
-          // }
-
-          try {
-            const res = await loginApi({
-              username: this.ruleForm.username,
-              password: user_password,
-              roleType: this.roleType
+          let { loginName, password } = values;
+          console.log(values);
+          login({ loginName, password: md5(password) })
+            .then(res => {
+              console.log('../res',res)
+            })
+            .catch(e => {
+              console.log(e)
+              this.error = true;
+              this.error_tips = e.msg;
             });
-            if (res) {
-              let roleType = parseInt(this.roleType);
-              switch (roleType) {
-                case 0:
-                  checkDoctor(user_password);
-                  break;
-                case 1:
-                  adminLogin(_this, user_password);
-                  break;
-              }
-            }
-          } catch (res) {
-            console.log(res);
-            this.password_error = true;
-            this.loginLoading = false;
-            this.error_tips = res.msg;
-          }
         }
       });
     }
   },
   created() {
     // this.init();
+    // this.form = this.$form.createForm()
   }
 };
 </script>

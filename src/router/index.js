@@ -1,9 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store/index'
-import { ROLES } from '@/utils/enum'
 import { getRolesInfo } from '@/utils/roles'
-import { authCheck } from '../api/login'
 // import {syncRouterMap,constantRouterMap} from './routes'
 Vue.use(Router);
 
@@ -12,12 +10,12 @@ const whiteRoutes = ['login', 'forget']//路由白名单
 const constantRouterMap = [
   {
     path: '/login',
-    component: () => import('@/view/login'),
+    component: () => import('@/view/user/login'),
     name: 'login'
   },
   {
     path: '/forget',
-    component: () => import('@/view/login/forget'),
+    component: () => import('@/view/user/forget'),
     name: 'forget'
   },
   {
@@ -47,7 +45,7 @@ let syncRouterMap = [
       title: 'dashboard',
       keepAlive: true,
       menu: {
-        icon: () => import('@/assets/img/sider/organization.svg')
+        icon: () => import('@/assets/svg/dashboard.svg')
       }
     }
   },
@@ -59,7 +57,7 @@ let syncRouterMap = [
       title: '机构管理',
       keepAlive: true,
       menu: {
-        icon: () => import('@/assets/img/sider/organization.svg')
+        icon: () => import('@/assets/svg/organ.svg')
       }
     },
     component: () => import('@/view/layout'),
@@ -91,7 +89,7 @@ let syncRouterMap = [
       parentBreadCrumb: 'rpm_org_manage',
       keepAlive: true,
       menu: {
-        icon: () => import('@/assets/img/sider/organization.svg')
+        icon: () => import('@/assets/svg/organ.svg')
       }
     },
     component: () => import('@/view/layout'),
@@ -123,7 +121,7 @@ let syncRouterMap = [
       parentBreadCrumb: 'rpm_depart_manage',
       keepAlive: true,
       menu: {
-        icon: () => import('@/assets/img/sider/organization.svg')
+        icon: () => import('@/assets/svg/organ.svg')
       }
     },
     component: () => import('@/view/layout'),
@@ -155,7 +153,7 @@ let syncRouterMap = [
       parentBreadCrumb: 'rpm_doctor_manage',
       keepAlive: true,
       menu: {
-        icon: () => import('@/assets/img/sider/organization.svg')
+        icon: () => import('@/assets/svg/organ.svg')
       }
     },
     component: () => import('@/view/layout'),
@@ -208,7 +206,7 @@ let syncRouterMap = [
       key: 'setting',
       title: '设置',
       menu: {
-        icon: () => import('@/assets/img/sider/organization.svg')
+        icon: () => import('@/assets/svg/setting.svg')
       }
     },
     children: [
@@ -221,7 +219,7 @@ let syncRouterMap = [
           title: '设备管理',
           keepAlive: true,
           menu: {
-            icon: () => import('@/assets/img/sider/organization.svg')
+            icon: () => import('@/assets/svg/device.svg')
           }
         }
       },
@@ -236,7 +234,7 @@ let syncRouterMap = [
         }
       },
       {
-        path: 'organization',
+        path: '/organization',
         name: 'organization',
         component: () => import('@/view/organization'),
         meta: {
@@ -245,21 +243,20 @@ let syncRouterMap = [
           title: '人员架构',
           keepAlive: true,
           menu: {
-            icon: () => import('@/assets/img/sider/organization.svg')
+            icon: () => import('@/assets/svg/organization.svg')
           }
         }
       },
       {
-        path: 'updatePassword',
+        path: '/forget',
         name: 'updatePassword',
-        redirect: '/forget',
-        component: () => import('@/view/login/forget'),
+        component: () => import('@/view/user/forget'),
         meta: {
           key: 'updatePassword',
           title: '修改密码',
           keepAlive: true,
           menu: {
-            icon: () => import('@/assets/img/sider/organization.svg')
+            icon: () => import('@/assets/svg/update-password.svg')
           }
         }
       }
@@ -313,22 +310,23 @@ router.beforeEach((to, from, next) => {
             routes: constantRouterMap.concat(accessRoutes),
             menu: [
               {
-                key: 'rpm_org_dashboard'
+                pageCode: 'rpm_org_dashboard',
+                pageName:'机构Dashboard'
               },
               {
-                key: 'rpm_org_manage'
+                pageCode: 'rpm_org_manage'
               },
               {
-                key: 'setting',
+                pageCode: 'setting',
                 children: [
                   {
-                    key:'device'
+                    pageCode:'device'
                   },
                   {
-                    key: 'organization'
+                    pageCode: 'organization'
                   },
                   {
-                    key: 'updatePassword'
+                    pageCode: 'updatePassword'
                   }
                 ]
               }

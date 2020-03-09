@@ -6,15 +6,10 @@ import uuid from 'uuid'
 // 配置
 const hostname = window.location.hostname
 export const apiUrl = (() => {
-  //return '//health-qa2.lifesense.com'
   return {
-    'static-qa2.lifesense.com': '//health-qa2.lifesense.com',
-    'static-qa.lifesense.com': '//health-qa.lifesense.com',
-    'static-dev.lifesense.com': '//health-dev.lifesense.com',
-    'health-dev.lifesense.com': '//health-dev.lifesense.com',
-    'localhost': '//health-dev.lifesense.com',
-    // 'sp.lifesense.com': 'sp.lifesense.com/operplatform_service',
-  }[hostname] || '//health.lifesense.com'
+    'static-qa.lifesense.com': 'https://sports-qa.lifesense.com',
+    'localhost': '/'
+  }[hostname] || '//sports.lifesense.com'
 })()
 
 let pending = []; //声明一个数组用于存储每个ajax请求的取消函数和ajax标识
@@ -46,7 +41,7 @@ service.interceptors.request.use(
       pending.push({ u: config.url + '&' + config.method, f: c });
     });
     config.params['requestId'] = `${uuid.v1().replace(/-/g, '')}`
-    config.params['appType'] = 6
+    config.params['appType'] = 26
     // config.params['accessToken'] = 'qwert'
     return config
   },
@@ -68,9 +63,9 @@ service.interceptors.response.use(
       // 客户端未登录
       store.commit('SET_LOGIN', false);
       router.push('/login');
-      return Promise.reject(res.msg)
+      return Promise.reject(res)
     } else {
-      return Promise.reject(res.msg)
+      return Promise.reject(res)
     }
   },
   error => {

@@ -16,8 +16,9 @@
             {{status===1?'启用':'停用'}}
           </a-row>
           <a-row slot="option" slot-scope="info">
-            <a-button @click="gotoDetail(info,'edit')">编辑</a-button>
-            <a-button @click="gotoDetail(info,'check')">查看</a-button>
+            <router-link :to="'/device/edit?type=edit&id='+info.id">编辑</router-link>
+            /
+            <router-link :to="'/device/edit?type=check&id='+info.id">查看</router-link>
           </a-row>
         </a-table>
       </a-row>

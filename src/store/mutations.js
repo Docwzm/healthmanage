@@ -6,35 +6,34 @@ const mutations = {
   },
   // 设置菜单栏导航
   [types.SET_MENU](state, { routes, menu }) {
-    console.log('routes', routes)
-    console.log('menu', menu)
     let func = (routes, menu) => {
-      let _route = routes.filter(route => {
+      let _route = routes.filter((route,index) => {
         let findMenu = menu.find(item => {
           if (route.meta) {
             if(typeof route.meta.key === 'object'){
               console.log(route.meta.key)
-              return route.meta.key.includes(item.key)
+              return route.meta.key.includes(item.pageCode)
             }else {
-              return item.key === route.meta.key
+              return item.pageCode === route.meta.key
             }
           }
         })
-        console.log(findMenu)
-
+        
         if (!findMenu) {
           return false;
         } else {
+          route.meta.title = findMenu.pageName?findMenu.pageName:route.meta.title
           if (findMenu.children) {
             route.children = func(route.children, findMenu.children);
-          } else {
-            route.children = [];
           }
         }
+
         return true;
       });
+
       return _route;
     };
+
     state.menu = func(routes, menu);
     console.log('state.menu', state.menu)
   },

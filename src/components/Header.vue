@@ -35,7 +35,7 @@
 <script>
 import logoIcon from "@/assets/svg/icon-logo.svg";
 import { mapGetters, mapMutations } from "vuex";
-import { logout } from "../api/login";
+import { logout } from "@/api/user";
 
 export default {
   data() {

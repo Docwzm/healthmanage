@@ -54,7 +54,7 @@ li {
           box-sizing: border-box;
           font-size: 14px;
           color: #000;
-          background: #fff url("../../../assets/img/login/icon.png") no-repeat
+          background: #fff url("../../assets/img/login/icon.png") no-repeat
             10px center;
         }
 
@@ -67,7 +67,7 @@ li {
           top: 24px;
           background: #fff;
           height: 110px;
-          background: #fff url("../../../assets/img/login/codeOn.png")
+          background: #fff url("../../assets/img/login/codeOn.png")
             no-repeat center;
         }
       }
@@ -399,7 +399,7 @@ li {
 
       <div class="form_list" :class="{form_list1:step1,form_list2:step2,form_list3:step3}">
         <div class="error_tips" v-show="error_tips_show">{{error_tips}}</div>
-        <div class="form_item form_item1" v-loading.body="step1Loading">
+        <div class="form_item form_item1">
           <ul class="con">
             <li class="item">
               <span class="label">账号</span>
@@ -423,7 +423,7 @@ li {
             </li>
           </ul>
         </div>
-        <div class="form_item form_item2" v-loading.body="step2Loading">
+        <div class="form_item form_item2">
           <ul class="con">
             <li class="item">
               <span class="label">请输入新密码</span>
