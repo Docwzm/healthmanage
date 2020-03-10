@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { login, getInfo, logout } from '@/api/user'
+import { login, getUserMenu, logout } from '@/api/user'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 
 const user = {
@@ -10,7 +10,7 @@ const user = {
     roles: [],
     info: {}
   },
-
+  
   mutations: {
     SET_TOKEN: (state, token) => {
       state.token = token
@@ -47,6 +47,9 @@ const user = {
     // 获取用户信息
     GetInfo({ commit }) {
       return new Promise((resolve, reject) => {
+        // getUserMenu().then(res => {
+          
+        // })
         // getInfo().then(response => {
         //   const result = response.result
 

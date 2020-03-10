@@ -4,9 +4,9 @@
     <a-form :form="form">
       <a-form-item v-bind="formItemLayout" label="机构名称">
         <a-input v-decorator="[
-          'name',
+          'orgValue',
           {
-              initialValue:formData.name,
+              initialValue:formData.orgValue,
             rules: [{
               required: true, message: '请输入机构名称',
             }]
@@ -53,9 +53,9 @@
       </a-form-item>
       <a-form-item v-bind="formItemLayout" label="联系人">
         <a-input v-decorator="[
-          'concatPerson',
+          'bizerName',
           {
-              initialValue:formData.concatPerson,
+              initialValue:formData.bizerName,
             rules: [{
               required: true, message: '请输入联系人',
             }]
@@ -64,9 +64,9 @@
       </a-form-item>
       <a-form-item v-bind="formItemLayout" label="联系电话">
         <a-input v-decorator="[
-          'phone',
+          'bizerMobile',
           {
-              initialValue:formData.phone,
+              initialValue:formData.bizerMobile,
             rules: [{
               required: true, message: '请输入联系电话',
             }]
@@ -75,9 +75,9 @@
       </a-form-item>
       <a-form-item v-bind="formItemLayout" label="机构账号">
         <a-input v-decorator="[
-          'username',
+          'orgAccount',
           {
-              initialValue:formData.username,
+              initialValue:formData.orgAccount,
             rules: [{
               required: true, message: '请输入机构账号',
             }]
@@ -86,9 +86,9 @@
       </a-form-item>
       <a-form-item v-bind="formItemLayout" label="机构密码">
         <a-input v-decorator="[
-          'password',
+          'orgAccountPassword',
           {
-              initialValue:formData.password,
+              initialValue:formData.orgAccountPassword,
             rules: [{
               required: true, message: '请输入机构密码',
             }]
@@ -230,9 +230,9 @@ export default {
     },
     async handleSubmit(e) {
       e.preventDefault();
-      let res = await addOrg({})
-      console.log(res)
-      return false
+      let res = await addOrg({});
+      console.log(res);
+      return false;
       this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
           console.log("Received values of form: ", values);

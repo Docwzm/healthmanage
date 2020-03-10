@@ -7,7 +7,7 @@ import uuid from 'uuid'
 const hostname = window.location.hostname
 export const apiUrl = (() => {
   return {
-    'static-qa.lifesense.com': 'https://sports-qa.lifesense.com',
+    'static-qa.lifesense.com': '/',
     'localhost': '/'
   }[hostname] || '//sports.lifesense.com'
 })()

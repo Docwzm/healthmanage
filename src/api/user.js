@@ -28,8 +28,17 @@ export function logout(data) {
  * info
  * @param {*} data 
  */
-export function getInfo(data) {
+export function getUserInfo(data) {
     return request({
-        url: SERVICE_NAME + '/common/logout'
+        url: SERVICE_NAME + "/common/getDoctorUserInfo",
+        method: "post"
+    })
+}
+
+
+export function getUserMenu() {
+    return request({
+        url: SERVICE_NAME + "/power/getMenuList",
+        method: "post"
     })
 }

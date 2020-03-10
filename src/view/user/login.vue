@@ -2,8 +2,8 @@
 .login-layout-mac {
   font-family: "PingFang SC", "Hiragino Sans GB", Arial, sans-serif;
 }
-.form-error-tips{
-  color:red;
+.form-error-tips {
+  color: red;
 }
 .login-layout {
   min-width: 1190px;
@@ -710,9 +710,17 @@ export default {
           login({ loginName, password: md5(password) })
             .then(res => {
               console.log('../res',res)
+              let token = res.data.accessToken;
+              localStorage.setItem(
+                "lifesense_medical_token",
+                JSON.stringify({
+                  token
+                })
+              );
+              this.$router.push("/");
             })
             .catch(e => {
-              console.log(e)
+              console.log(e);
               this.error = true;
               this.error_tips = e.msg;
             });
