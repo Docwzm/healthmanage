@@ -93,31 +93,31 @@ const user = {
             ]
           }
         ]
-        menu = [
-          {
-            pageCode: 'rpm_depart_dashboard',
-            pageName: '团队Dashboard'
-          },
-          {
-            pageCode: 'rpm_depart_manage',
-            pageName: '团队管理'
-          },
-          {
-            pageCode: 'setting',
-            pageName: '设置',
-            children: [
-              {
-                pageCode: 'device',
-              },
-              {
-                pageCode: 'organization',
-              },
-              {
-                pageCode: 'update_password',
-              }
-            ]
-          }
-        ]
+        // menu = [
+        //   {
+        //     pageCode: 'rpm_depart_dashboard',
+        //     pageName: '团队Dashboard'
+        //   },
+        //   {
+        //     pageCode: 'rpm_depart_manage',
+        //     pageName: '团队管理'
+        //   },
+        //   {
+        //     pageCode: 'setting',
+        //     pageName: '设置',
+        //     children: [
+        //       {
+        //         pageCode: 'device',
+        //       },
+        //       {
+        //         pageCode: 'organization',
+        //       },
+        //       {
+        //         pageCode: 'update_password',
+        //       }
+        //     ]
+        //   }
+        // ]
         let permissionList = []
         const func = (menus) => {
           menus.map(item => {

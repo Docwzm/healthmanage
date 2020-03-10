@@ -116,7 +116,8 @@
 </template>
 
 <script>
-import cityOptions from '@/utils/cities'
+import cityOptions from "@/utils/cities";
+import { addOrg, updateOrg, deleteOrg } from "@/api/organ";
 export default {
   data() {
     return {
@@ -227,8 +228,11 @@ export default {
       var errors = [];
       return errors;
     },
-    handleSubmit(e) {
+    async handleSubmit(e) {
       e.preventDefault();
+      let res = await addOrg({})
+      console.log(res)
+      return false
       this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
           console.log("Received values of form: ", values);

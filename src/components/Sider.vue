@@ -1,16 +1,15 @@
 <script>
 import { mapGetters } from "vuex";
+import { routerMap } from "@/router/routes";
 export default {
   data() {
     return {
-      routes: this.$router.options.routes,
-      selectedKey: [],
-      list: [],
-      accessMenuRoute: []
+      selectedKey: ["/teams"],
+      menu: []
     };
   },
   props: {
-    collapsed:false
+    collapsed: false
   },
   computed: {
     ...mapGetters(["roles"])
@@ -21,7 +20,24 @@ export default {
     }
   },
   created() {
-    this.menu = []
+    const func = menu => {
+      return menu.map(item => {
+        let { title, icon, path } = routerMap[item.pageCode];
+        let params = {
+          name: item.pageCode,
+          path,
+          title: item.pageName ? item.pageName : title,
+          icon
+        };
+        if (item.children) {
+          params.children = func(item.children);
+        }
+        item = { ...params };
+        return item;
+      });
+    };
+    this.menu = func(this.roles.menu);
+
     this.changeSelectedKey(this.$route.matched);
   },
   methods: {
@@ -31,9 +47,8 @@ export default {
     changeSelectedKey(matchedRoutes) {
       this.selectedKey = [];
       matchedRoutes.map(item => {
-        if (item.meta.menu) {
-          this.selectedKey.push(item.path);
-        }
+        console.log(item);
+        this.selectedKey.push(item.path);
       });
     },
     showMenu(route) {
@@ -61,34 +76,24 @@ export default {
       width: this.collapsed ? "auto" : "256px"
     };
 
-    const renderMenuItem = (parentPath, route) => {
-      if (route.path.indexOf("/") == 0) {
-        parentPath = "";
-      } else {
-        parentPath = parentPath
-          ? parentPath + "/"
-          : route.path.indexOf("/") == 0
-          ? ""
-          : "/";
-      }
-
-      return this.hasOneMenuChild(route) ? (
+    const renderMenuItem = route => {
+      return !route.children || route.children.length === 0 ? (
         <a-menu-item
           key={route.path}
-          onClick={() => this.jumpTo(parentPath + route.path)}
+          onClick={() => this.jumpTo(route.path)}
           class="menu-item"
         >
-          <a-icon component={route.meta.menu.icon} />
-          <span>{route.meta.title}</span>
+          <a-icon component={route.icon} />
+          <span>{route.title}</span>
         </a-menu-item>
       ) : (
         <a-sub-menu key={route.path}>
           <span slot="title">
-            <a-icon component={route.meta.menu.icon} />
-            <span>{route.meta.title}</span>
+            <a-icon component={route.icon} />
+            <span>{route.title}</span>
           </span>
           {route.children.map(item => {
-            return renderMenuItem(route.path, item);
+            return renderMenuItem(item);
           })}
         </a-sub-menu>
       );
@@ -103,10 +108,7 @@ export default {
         style={style}
       >
         {this.menu.map(route => {
-          if (route.meta && route.meta.menu) {
-            return renderMenuItem(null, route);
-          }
-          return null;
+          return renderMenuItem(route);
         })}
       </a-menu>
     );

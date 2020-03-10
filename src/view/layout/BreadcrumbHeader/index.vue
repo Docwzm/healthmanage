@@ -20,6 +20,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { filterQuery } from "@/utils/util";
+import {routerMap} from '@/router/routes'
 export default {
   name: "breadcrumb",
   data() {
@@ -32,22 +33,23 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["routes"])
+    ...mapGetters(["routers"])
   },
   mounted() {
-    this.initBreadCrumb(this.$route.meta.key);
+    this.initBreadCrumb(this.$route.name);
   },
   watch: {
     $route(to, from) {
       this.flag = false;
       this.breadRoutes = []
-      this.initBreadCrumb(to.meta.key);
+      this.initBreadCrumb(to.name);
     }
   },
   methods: {
     initBreadCrumb(breadcrumbName) {
+      console.log(this.$route)
       let { organId, teamId, doctorId } = this.$route.query;
-      this.routes.map(item => {
+      this.routers.map(item => {
         if (item.meta && item.meta.key === breadcrumbName) {
           this.flag = true;
           let query = "";
@@ -63,24 +65,24 @@ export default {
               break;
           }
           this.breadRoutes.unshift({
-            path: `${item.path}${query}`,
-            key: item.meta.key,
-            breadcrumbName: item.meta.title
+            path: `${routerMap[breadcrumbName].path}${query}`,
+            key: breadcrumbName,
+            breadcrumbName: routerMap[breadcrumbName].title
           });
 
-          if (item.meta.parentBreadCrumb) {
-            this.initBreadCrumb(item.meta.parentBreadCrumb);
+          if (routerMap[breadcrumbName].parentBreadCrumb) {
+            this.initBreadCrumb(routerMap[breadcrumbName].parentBreadCrumb);
           }
         }
       });
 
-      if (!this.flag) {
-        this.breadRoutes.unshift({
-          path: this.$route.path,
-          key: this.$route.name,
-          breadcrumbName: this.$route.meta.title
-        });
-      }
+      // if (!this.flag) {
+      //   this.breadRoutes.unshift({
+      //     path: this.$route.path,
+      //     key: this.$route.name,
+      //     breadcrumbName: this.$route.meta.title
+      //   });
+      // }
     }
   }
 };
